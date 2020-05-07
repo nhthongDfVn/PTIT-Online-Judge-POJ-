@@ -2,4 +2,6 @@ eclipse.preferences.version=1
 encoding//WebContent/WEB-INF/views/header.html=UTF-8
 encoding//WebContent/WEB-INF/views/login.jsp=UTF-8
 encoding//WebContent/WEB-INF/views/right_page.html=UTF-8
+encoding//src/ptitcode/controller/ExerciseController.java=UTF-8
 encoding//src/ptitcode/controller/IndexController.java=UTF-8
+encoding//src/ptitcode/controller/PostController.java=UTF-8

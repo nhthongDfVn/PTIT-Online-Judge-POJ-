@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ page import="java.util.Random,java.text.*"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,14 +15,14 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </head>
 <style>
-table.dataTable thead .sorting:after, table.dataTable thead .sorting:before,
-	table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_asc:before,
-	table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_asc_disabled:before,
-	table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_desc:before,
-	table.dataTable thead .sorting_desc_disabled:after, table.dataTable thead .sorting_desc_disabled:before
-	{
-	bottom: .5em;
-}
+	.cont
+    {
+      background-color: #CCFF66;
+      padding: 20px;
+      margin-top: 10px;
+      border: 6px double #8A2BE2; 
+      word-wrap: break-word;"
+    }
 </style>
 
 <body>
@@ -28,35 +30,16 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting:before,
 
 <div class="row" style="margin-top: 30px">
 		<div class="col-sm-8" style="margin-left: 30px ">
-			<h2>Trang này dành cho admin</h2>
-			<%
-				Random random = new Random();
-
-				// Trả về ngẫu nhiên (0, 1 hoặc 2).
-				int randomInt = random.nextInt(3);
-
-				if (randomInt == 0) {
-			%>
-
-			<h1>
-				Random value =<%=randomInt%></h1>
-
-			<%
-				} else if (randomInt == 1) {
-			%>
-
-			<h2>
-				Random value =<%=randomInt%></h2>
-
-			<%
-				} else {
-			%>
-			<h3>
-				Random value =<%=randomInt%></h3>
-			<%
-				}
-			%>
+			<c:forEach var="u" items="${post}" >
+				<div  class='cont'>
+					<h2>${u.title}</h2>
+					<p>${u.body}</p>
+					<p> ${u.date}</p>
+				</div>
 			
+			</c:forEach>
+			
+
 		</div>
 		<div class="col-sm-3">
 			<%@include file="right_page.html"%>

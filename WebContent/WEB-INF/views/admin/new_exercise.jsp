@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ page import="java.util.Random,java.text.*"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -37,44 +39,56 @@
 			<h4 style="text-align: center">Thêm bài tập</h4	>
 			
 			<div style="margin-left: 50px">
-			<form action="/action_page.php">
+			<c:if test="${message.equals('success')}">
+
+					<div class="alert alert-success">
+						<strong>Thành công!</strong> Bạn có thể xem ở mục <a href="#"class="alert-link">bài tập</a>.
+					</div>
+			</c:if>
+			<c:if test="${message.equals('fail')}">
+					<div class="alert alert-danger">
+						<strong>Thất bại!</strong> Không thể thêm mới bài tập
+					</div>
+			</c:if>
+			<form:form action="/PTITCoding/exercise/add-exercise.htm" modelAttribute="exercise" method="POST" >
 				<table class="table  ">
 					<tbody>
 						<tr>
 							<td class="w-25">Tên bài tập</td>
-							<td class="w-50"><input  placeholder="1A" name='name'></td>
+							<td class="w-50"><form:input placeholder="1A"  path="name"/></td>
 						</tr>
 						<tr>
 							<td>Thời gian</td>
-							<td><input placeholder="1.0" name='time'> giây</td>
+							<td><form:input placeholder="1.0"  path="time"/> giây</td>
 						</tr>
 						<tr>
 							<td>Dạng bài</td>
-							<td><input placeholder="Quy hoạch động" name='type'></td>
+							<td><form:input placeholder="Quy hoạch động"  path="type"/></td>
 						</tr>
 						<tr>
 							<td>Giới hạn bộ nhớ</td>
-							<td><input placeholder="1024" name='memory'> MB</td>
+							<td><form:input placeholder="1024"  path="memlimit"/> MB</td>
 						</tr>
 						<tr>
 							<td>Mô tả bài tập</td>
-							<td><textarea class="form-control" placeholder="Mô tả" name="describe" rows="6"></textarea></td>
+							<td><form:textarea class="form-control" placeholder="Mô tả" rows="6"  path="detail"/></td>
 						</tr>
 						<tr>
-							<td>Input mẫu</td>
-							<td><textarea class="form-control" placeholder="1 3 4" name="input" rows="3"></textarea></td>
+							<td>Input mẫu</td>	
+							<td><form:textarea class="form-control" placeholder="1 3 4" rows="3"  path="input"/></td>
 						</tr>
 						<tr>
 							<td>Output mẫu</td>
-							<td><textarea class="form-control" placeholder="8" name="output" rows="3"></textarea></td>
+							<td><form:textarea class="form-control" placeholder="8" rows="3"  path="output"/></td>
+							
 						</tr>
 						<tr>
 							<td class="w-25"></td>
 							<td class="w-50"><button type="submit" class="btn btn-primary">Thêm bài tập</button></td>
 						</tr>
-					</tbody>
+					</tbody>		
 				</table>
-			</form>
+			</form:form>
 
 
 			</div>

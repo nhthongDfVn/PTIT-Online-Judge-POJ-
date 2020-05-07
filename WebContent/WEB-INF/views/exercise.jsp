@@ -1,8 +1,9 @@
 <%@page import="com.sun.corba.se.impl.protocol.giopmsgheaders.Message"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="javax.servlet.http.HttpServletRequest"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -49,8 +50,33 @@
 		<%} 
 			else {
 		%>
-			<%@include  file="exercise/homework.jsp" %>
-		<%} %>
+			<table id="dtBasicExample" class="table table-hover"
+				style="margin-top: 20px" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th class="th-sm">Mã bài</th>
+						<th class="th-sm">Tên bài</th>
+						<th class="th-sm">Dạng bài</th>
+						<th class="th-sm">Số người giải</th>
+						<th class="th-sm"></th>
+					</tr>
+				</thead>
+				<tbody>
+				<c:forEach var="u" items="${exercise}">
+				   <tr>
+						<td>${u.name}</td>
+						<td><a href="/PTITCoding/exercise/Details.htm">TINH TONG</a></td>
+						<td>${u.type}</td>
+						<td>64</td>
+						<td>✔️</td>
+					</tr>
+				</c:forEach>
+					
+				</tbody>
+			</table>
+
+
+			<%} %>
 		
 			
 		

@@ -82,11 +82,6 @@ public class IndexController {
 	}
 	
 	
-	@RequestMapping("/index")
-	public String showIndex(){	
-		// goi den trang chu (index)
-		return "index";
-	}
 	
 	
 	@RequestMapping("/admin")

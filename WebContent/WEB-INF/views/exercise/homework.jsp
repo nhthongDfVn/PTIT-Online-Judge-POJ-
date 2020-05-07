@@ -35,6 +35,5 @@
 			<td>64</td>
 			<td>❌</td>
 		</tr>
-
 	</tbody>
 </table>
