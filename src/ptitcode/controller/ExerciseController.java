@@ -41,8 +41,15 @@ public class ExerciseController {
 	
 	
 	@RequestMapping("/exercise/Details")
-	public String showDetails(){	
-		// goi den file chi tiet bai tap
+	public String showDetails(ModelMap model, HttpServletRequest request){
+		Session session = factory.getCurrentSession();
+		String id=request.getParameter("id");
+		String hql="FROM Exercise Where exerciseID=:id";
+		Query query=session.createQuery(hql);
+		query.setString("id",id);
+		List <Exercise> list= query.list();
+		model.addAttribute("exercise",list);
+		// xem chi tiet bai tap
 		return "exercise/details";
 	}
 	

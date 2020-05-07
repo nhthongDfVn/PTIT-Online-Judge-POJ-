@@ -50,7 +50,8 @@
 		<%} 
 			else {
 		%>
-			<table id="dtBasicExample" class="table table-hover"
+		
+			<table id="exercise" class="table table-hover"
 				style="margin-top: 20px" cellspacing="0" width="100%">
 				<thead>
 					<tr>
@@ -64,8 +65,8 @@
 				<tbody>
 				<c:forEach var="u" items="${exercise}">
 				   <tr>
-						<td>${u.name}</td>
-						<td><a href="/PTITCoding/exercise/Details.htm">TINH TONG</a></td>
+						<td>${u.exerciseID}</td>
+						<td><a href="/PTITCoding/exercise/Details.htm?id=${u.exerciseID}">${u.name}</a></td>
 						<td>${u.type}</td>
 						<td>64</td>
 						<td>✔️</td>
@@ -85,5 +86,9 @@
 			<%@include file="right_page.html"%>
 		</div>
 </div>
+
+
+
+
 </body>
 </html>

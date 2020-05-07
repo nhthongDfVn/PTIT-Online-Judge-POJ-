@@ -16,8 +16,12 @@
 <div class="row" style="margin-top: 30px">
 		<div class="col-sm-8" style="margin-left: 30px" >
 			<h3 style="text-align: center">Nộp bài giải </h3>
+
+
 			<form action="/action_page.php" method='POST' enctype="multipart/form-data">
-					<p>Ngôn ngữ</p> 
+				<input class="form-control" id="disabledInput" type="text"
+						placeholder="Tên bài: TINH TONG" disabled>
+				<p>Ngôn ngữ</p> 
 					<select
 						class="form-control" id="sel1" name="language">
 						<option>C</option>

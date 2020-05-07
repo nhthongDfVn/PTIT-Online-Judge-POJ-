@@ -1,7 +1,7 @@
 <%@page import="com.sun.corba.se.impl.protocol.giopmsgheaders.Message"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="javax.servlet.http.HttpServletRequest"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -38,29 +38,24 @@
 			</div>
 			</nav>		
 			
-			
+		<c:forEach var="u" items="${exercise}">
 			<div style="text-align:center;line-height: 0.5">
-					<h3>1A XIN CHÀO </h3>
-					<p>Dữ liệu vào: standard input </p>
-					<p>Dữ liệu ra: standard output </p>
-					<p>Giới hạn thời gian: 1.0 giây </p>
-					<p>Giới hạn bộ nhớ: 128 megabyte </p>
-					<p>Đăng bởi: admin </p>
+				<h3>${u.name}</h3>
+				<p>Dữ liệu vào: standard input </p>
+				<p>Dữ liệu ra: standard output </p>
+				<p>Giới hạn thời gian: ${u.time} giây </p>
+				<p>Giới hạn bộ nhớ: ${u.memlimit}  megabyte </p>
+				<p>Đăng bởi: admin </p>			
 			</div>
 			
 			<div style="margin-left: 30px; margin-top: 30px">
-			<p>Cho n đội bóng tham dự WC, mỗi đội i bạn được biết chỉ số ghi bàn và chỉ số penalty. Khi 2 đội A và B thi đấu với nhau: đội nào có chỉ số ghi bàn lớn hơn sẽ thắng, nếu bằng nhau thì chỉ số penalty của đội nào lớn hơn sẽ thắng. 2 đội hòa nhau nếu cả 2 chỉ số đều bằng nhau. Hình thức thi đấu tại WC như sau: có tổng cộng n*(n-1)/2 trận đấu, hai đội i và j sẽ thi đấu với nhau đúng một lần, mỗi trận đấu đội nào thắng sẽ được 3 điểm, đội thua không được điểm nào, nếu hai đội hòa nhau thì mỗi đội được 1 điểm. Đội nhiều điểm nhất là đội vô địch. </p>	
-			<p>INPUT
-
--dòng đầu tiên chứa n (2<=n<100000)
-
--n dòng tiếp theo, dòng thứ i lần lượt là tên đội i và chỉ số bàn thắng, chỉ số penalty (các chỉ số là số nguyên dương không quá 10^9), dữ liệu đảm bảo điểm của hai đội nhiều điểm nhất là khác nhau
-
-OUTPUT
-
-Tên đội vô địch WC </p>
+			<p>${u.detail}</p>	
+			<p><strong> INPUT</strong></p>
+			<p>${u.input}</p>	
+			<p><strong> OUTPUT</strong></p>
+			<p>${u.output}</p>	
 			</div>
-			
+			</c:forEach>
 			
 			
 				

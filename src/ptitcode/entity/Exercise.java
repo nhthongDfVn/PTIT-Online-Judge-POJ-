@@ -2,6 +2,7 @@ package ptitcode.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -10,6 +11,10 @@ import javax.persistence.Table;
 @Table(name="exercise")
 public class Exercise {
 	@Id
+	@GeneratedValue
+	@Column(name="exerciseID")
+	private int exerciseID;
+	
 	@Column(name="name")
 	private String name;
 	
@@ -87,6 +92,11 @@ public class Exercise {
 		this.output = output;
 	}
 
-	
-	
+	public int getExerciseID() {
+		return exerciseID;
+	}
+
+	public void setExerciseID(int exerciseID) {
+		this.exerciseID = exerciseID;
+	}	
 }
