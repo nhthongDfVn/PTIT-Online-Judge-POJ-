@@ -27,7 +27,7 @@
 				<ul class="navbar-nav">
 					<li class="nav-item">
 					<li class="nav-item"><a class="nav-link"
-						href="/PTITCoding/submit.htm">Nộp bài</a></li>
+						href="/PTITCoding/submit/${exercise.exerciseID}.htm">Nộp bài</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="/PTITCoding/exercise.htm?page=bbn">Bài bạn nộp</a></li>
 					</li>
@@ -38,24 +38,22 @@
 			</div>
 			</nav>		
 			
-		<c:forEach var="u" items="${exercise}">
 			<div style="text-align:center;line-height: 0.5">
-				<h3>${u.name}</h3>
+				<h3>${exercise.name}</h3>
 				<p>Dữ liệu vào: standard input </p>
 				<p>Dữ liệu ra: standard output </p>
-				<p>Giới hạn thời gian: ${u.time} giây </p>
-				<p>Giới hạn bộ nhớ: ${u.memlimit}  megabyte </p>
+				<p>Giới hạn thời gian: ${exercise.time} giây </p>
+				<p>Giới hạn bộ nhớ: ${exercise.memlimit}  megabyte </p>
 				<p>Đăng bởi: admin </p>			
 			</div>
 			
 			<div style="margin-left: 30px; margin-top: 30px">
-			<p>${u.detail}</p>	
+			<p>${exercise.detail}</p>	
 			<p><strong> INPUT</strong></p>
-			<p>${u.input}</p>	
+			<p>${exercise.input}</p>	
 			<p><strong> OUTPUT</strong></p>
-			<p>${u.output}</p>	
+			<p>${exercise.output}</p>	
 			</div>
-			</c:forEach>
 			
 			
 				

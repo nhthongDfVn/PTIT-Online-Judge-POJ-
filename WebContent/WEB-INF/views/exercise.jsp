@@ -50,7 +50,7 @@
 		<%} 
 			else {
 		%>
-		
+		  <input class="form-control" id="myInput" type="text" placeholder="Mã bài, tên bài, dạng bài, ...">
 			<table id="exercise" class="table table-hover"
 				style="margin-top: 20px" cellspacing="0" width="100%">
 				<thead>
@@ -62,11 +62,11 @@
 						<th class="th-sm"></th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="myTable">
 				<c:forEach var="u" items="${exercise}">
 				   <tr>
 						<td>${u.exerciseID}</td>
-						<td><a href="/PTITCoding/exercise/Details.htm?id=${u.exerciseID}">${u.name}</a></td>
+						<td><a href="/PTITCoding/exercise/view/${u.exerciseID}.htm">${u.name}</a></td>
 						<td>${u.type}</td>
 						<td>64</td>
 						<td>✔️</td>
@@ -86,9 +86,15 @@
 			<%@include file="right_page.html"%>
 		</div>
 </div>
-
-
-
-
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
 </body>
 </html>

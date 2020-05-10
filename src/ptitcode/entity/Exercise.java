@@ -1,9 +1,13 @@
 package ptitcode.entity;
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -35,6 +39,9 @@ public class Exercise {
 	
 	@Column(name="output")
 	private String output;
+	
+	@OneToMany(mappedBy="exercise",fetch=FetchType.EAGER)
+	private Collection<Testcase> testcases;
 
 	public String getName() {
 		return name;
