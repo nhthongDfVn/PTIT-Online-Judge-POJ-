@@ -1,5 +1,7 @@
 package ptitcode.entity;
 
+
+
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -40,8 +42,12 @@ public class Exercise {
 	@Column(name="output")
 	private String output;
 	
+	@OneToMany(mappedBy="exercise1",fetch=FetchType.EAGER)
+	private Collection<Solution> solutions;
+	
 	@OneToMany(mappedBy="exercise",fetch=FetchType.EAGER)
-	private Collection<Testcase> testcases;
+	private Collection<Testcase> testcase;
+	
 
 	public String getName() {
 		return name;
@@ -105,5 +111,25 @@ public class Exercise {
 
 	public void setExerciseID(int exerciseID) {
 		this.exerciseID = exerciseID;
+	}
+
+	public Exercise() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Exercise(int exerciseID, String name, Double time, String type, int memlimit, String detail, String input,
+			String output) {
+		super();
+		this.exerciseID = exerciseID;
+		this.name = name;
+		this.time = time;
+		this.type = type;
+		this.memlimit = memlimit;
+		this.detail = detail;
+		this.input = input;
+		this.output = output;
 	}	
+	
+	
 }

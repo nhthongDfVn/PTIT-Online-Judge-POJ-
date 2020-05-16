@@ -44,22 +44,6 @@
 			</div>
 			</nav>		
 			
-			<div style="text-align:center;line-height: 0.5">
-				<h3>${exercise.name}</h3>
-				<p>Dữ liệu vào: standard input </p>
-				<p>Dữ liệu ra: standard output </p>
-				<p>Giới hạn thời gian: ${exercise.time} giây </p>
-				<p>Giới hạn bộ nhớ: ${exercise.memlimit}  megabyte </p>
-				<p>Đăng bởi: admin </p>			
-			</div>
-			
-			<div style="margin-left: 30px; margin-top: 30px">
-			<p>${exercise.detail}</p>	
-			<p><strong> INPUT</strong></p>
-			<p>${exercise.input}</p>	
-			<p><strong> OUTPUT</strong></p>
-			<p>${exercise.output}</p>	
-			</div>
 			
 			
 				

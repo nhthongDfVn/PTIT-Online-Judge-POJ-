@@ -21,7 +21,7 @@
 				<li class="nav-item"><a class="nav-link active"
 					data-toggle="tab" href="#home">Chung</a></li>
 				<li class="nav-item"><a class="nav-link" data-toggle="tab"
-					href="#menu">Bài viết</a></li>
+					href="#menu">Bài viết8</a></li>
 				<li class="nav-item"><a class="nav-link" data-toggle="tab"
 					href="#menu">Bài tập</a></li>
 				<li class="nav-item"><a class="nav-link" data-toggle="tab"

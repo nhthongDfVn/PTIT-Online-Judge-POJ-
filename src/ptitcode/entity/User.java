@@ -1,42 +1,38 @@
 package ptitcode.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="`user`")
 public class User implements java.io.Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	private int id;
 	@Column(name="username")
 	private String username;
 	@Column(name="password")
 	private String password;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "username", referencedColumnName = "username")
+    private UserInfo users;
 	
 	public User(){
 		super();
 	}
 	
 	
-	public User(int id, String username, String password) {
-		this.id = id;
+	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
 	}
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public String getUsername() {
 		return username;
 	}
@@ -49,8 +45,4 @@ public class User implements java.io.Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
-	
-	
 }

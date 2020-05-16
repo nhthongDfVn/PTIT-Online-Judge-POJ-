@@ -2,6 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <%@ page import="javax.servlet.http.HttpServletRequest"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -42,24 +44,26 @@
 					</li>
 				</ul>
 			</div>
-			</nav>		
-			
-			<div style="text-align:center;line-height: 0.5">
-				<h3>${exercise.name}</h3>
-				<p>Dữ liệu vào: standard input </p>
-				<p>Dữ liệu ra: standard output </p>
-				<p>Giới hạn thời gian: ${exercise.time} giây </p>
-				<p>Giới hạn bộ nhớ: ${exercise.memlimit}  megabyte </p>
-				<p>Đăng bởi: admin </p>			
+			</nav>	
+				
+			<div style="margin-left: 50px">
+			  ${message}
+				<form:form action="/PTITCoding/exercise/add-solution/${exercise.exerciseID}.htm" modelAttribute="solution" method="POST" >
+				<div class="form-group">
+						<label for="email">Tên bài:</label> 
+						<form:input class="form-control" placeholder="1"  path="exercise.exerciseID" value="${exercise.exerciseID}" />	
+						<form:select class="form-control"  path="Language">
+									<form:option value="C"/>
+									<form:option value="C++"/>	
+						</form:select>			
+						<form:input class="form-control" placeholder="1"  path="code" />
+						<td class="w-50"><button type="submit" class="btn btn-primary">Thêm testcase</button></td>
+				
+				</div>
+				
+			</form:form>
 			</div>
 			
-			<div style="margin-left: 30px; margin-top: 30px">
-			<p>${exercise.detail}</p>	
-			<p><strong> INPUT</strong></p>
-			<p>${exercise.input}</p>	
-			<p><strong> OUTPUT</strong></p>
-			<p>${exercise.output}</p>	
-			</div>
 			
 			
 				

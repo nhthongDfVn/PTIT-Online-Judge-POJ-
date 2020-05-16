@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import ptitcode.entity.Exercise;
-import ptitcode.entity.Testcase;
+import ptitcode.entity.*;
 
 
 @Transactional
@@ -30,9 +29,6 @@ public class ExerciseController {
 	
 	@RequestMapping("/exercise")
 	public String showExercise1(ModelMap model){	
-		// goi den file exercise
-		
-		// lấy bài tập 
 		Session session= factory.getCurrentSession();
 		String hql="FROM Exercise";
 		Query query= session.createQuery(hql);
@@ -52,7 +48,7 @@ public class ExerciseController {
 	}
 	
 
-	@RequestMapping("/exercise/testcase/{id}")
+	@RequestMapping("/exercise/view/testcase/{id}")
 	public String viewTestcase(ModelMap model, @PathVariable("id") String id) {
 		Session session= factory.getCurrentSession();
 		String hql="FROM Testcase where exercise.exerciseID=:id";
@@ -65,31 +61,53 @@ public class ExerciseController {
 	}
 	
 	
+	@RequestMapping(value="/exercise/add-solution/{id}", method=RequestMethod.GET)
+	public String addSolution(ModelMap model,@PathVariable("id") int id){
+		
+		Session session = factory.getCurrentSession();
+		Exercise exercise = (Exercise) session.get(Exercise.class,id);
+		model.addAttribute("exercise", exercise);
+		model.addAttribute("solution", new Solution());
+		return "exercise/add-solution";
+	}
 	
-	// add new testcase GET
-		@RequestMapping(value="/exercise/add-testcase", method=RequestMethod.GET)
-		public String addTestcase(ModelMap model){
-			
-			model.addAttribute("testcase", new Testcase());
-			return "exercise/add_testcase";
+	@RequestMapping(value="/exercise/add-solution/{id}", method=RequestMethod.POST)
+	public String addSolution(ModelMap model,@ModelAttribute("solution")Solution solution,@PathVariable("id") int id){
+		
+		Session session = factory.openSession();
+		Transaction t= session.beginTransaction();
+		try{
+			session.save(solution);
+			t.commit();
+			model.addAttribute("message","success");
 		}
-		@ModelAttribute("exercise")
-		public List<Exercise> getExercise(){
-			Session session= factory.getCurrentSession();
-			String hql="FROM Exercise";
-			Query query= session.createQuery(hql);
-			List<Exercise> list=query.list();
-			return list;	
+		catch(Exception e){
+			t.rollback();
+			model.addAttribute("message","fail");
 		}
+		finally {
+			session.close();
+		}
+		return "exercise/add-solution";
+	}
+	
+	
+	
+	
+	
+	@RequestMapping(value="/exercise/add-testcase/{id}", method=RequestMethod.GET)
+	public String addTestcase(ModelMap model,@PathVariable("id") int id){
+		
+		Session session = factory.getCurrentSession();
+		Exercise exercise = (Exercise) session.get(Exercise.class,id);
+		model.addAttribute("exercise", exercise);
+		model.addAttribute("testcase", new Testcase());
+		return "exercise/add_testcase";
+	}
 	
 	// add new exercise POST // insert
 		@RequestMapping(value="/exercise/add-testcase", method=RequestMethod.POST)
 		public String addTestCase(ModelMap model, @ModelAttribute("testcase")Testcase testcase){
-			System.out.println(testcase.getExercise().getExerciseID());
-			System.out.println(testcase.getInput());
-			System.out.println(testcase.getNumtest());
-			System.out.println(testcase.getOutput());
-			
 			Session session = factory.openSession();
 			Transaction t= session.beginTransaction();
 			try{
@@ -120,7 +138,8 @@ public class ExerciseController {
 		
 	// add new exercise POST // insert
 	@RequestMapping(value="/exercise/add-exercise", method=RequestMethod.POST)
-	public String insertExercise(ModelMap model, @ModelAttribute("exercise")Exercise exercise){
+	public String insertExercise(ModelMap model, @ModelAttribute("exercise") Exercise exercise){
+		System.out.println("Hello");
 		Session session = factory.openSession();
 		Transaction t= session.beginTransaction();
 		try{
@@ -133,7 +152,7 @@ public class ExerciseController {
 			model.addAttribute("message","fail");
 		}
 		finally {
-			session.close();
+			//session.close();
 		}
 		return "admin/new_exercise";
 	}
@@ -150,7 +169,7 @@ public class ExerciseController {
 	// edit exercise // edit   // POST request
 	
 	@RequestMapping(value = "/exercise/update/{id}", method = RequestMethod.POST)
-	public String update(ModelMap model, @ModelAttribute("exercise") Exercise exercise,  @PathVariable("id") int id) {	
+	public String update(ModelMap model, @ModelAttribute("exercise") Exercise exercise/*, @PathVariable("id") int id*/) {	
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();
 		try {
@@ -162,8 +181,8 @@ public class ExerciseController {
 			System.out.print(e.getMessage());
 			model.addAttribute("message","fail");	
 		} finally {
-			Exercise exercise1 = (Exercise) session.get(Exercise.class,id);
-			model.addAttribute("exercise", exercise1);
+			//Exercise exercise1 = (Exercise) session.get(Exercise.class,id);
+			//model.addAttribute("exercise", exercise1);
 			session.close();			
 		}
 		return "exercise/edit";

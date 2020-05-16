@@ -60,6 +60,8 @@
 						<th class="th-sm">Dạng bài</th>
 						<th class="th-sm">Số người giải</th>
 						<th class="th-sm"></th>
+						<th class="th-sm"></th>
+						<th class="th-sm"></th>
 					</tr>
 				</thead>
 				<tbody id="myTable">
@@ -70,14 +72,48 @@
 						<td>${u.type}</td>
 						<td>64</td>
 						<td>✔️</td>
+						<td><a href="/PTITCoding/exercise/update/${u.exerciseID}.htm""> Sửa </a></td>
+						<td><a href="/PTITCoding/exercise/delete/${u.exerciseID}.htm" data-toggle="modal" data-target="#myModal" onClick='GetCellValues()' "> Xoá </a></td>
 					</tr>
 				</c:forEach>
 					
 				</tbody>
 			</table>
 
+			<!-- Delete -->   
+			<div class="modal" id="myModal">
+				<div class="modal-dialog">
+					<div class="modal-content">
 
-			<%} %>
+						<!-- Modal Header -->
+						<div class="modal-header">
+							<h4 class="modal-title">Xoá bài viết</h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						
+						<form action="delete.htm" method="post">
+							<input type="hidden" name="id" id="id">
+							<!-- Modal body -->
+							<div class="modal-body">Bạn thật sự muốn xoá bài viết?</div>
+
+							<!-- Modal footer -->
+							<div class="modal-footer">
+
+
+								<button type="submit" class="btn btn-danger"
+									data-dismiss="modal">Yes</button>
+						<button type="button" class="btn btn-success" data-dismiss="modal">No</button>
+						</form>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+
+			<%
+				}
+			%>
 		
 			
 		
@@ -95,6 +131,16 @@ $(document).ready(function(){
     });
   });
 });
-</script>
+
+function GetCellValues() {
+    var table = document.getElementById('mytable');
+    for (var r = 0, n = table.rows.length; r < n; r++) {
+        for (var c = 0, m = table.rows[r].cells.length; c < m; c++) {
+            alert(table.rows[r].cells[c].innerHTML);
+        }
+    }
+}
+	
+	</script>
 </body>
 </html>

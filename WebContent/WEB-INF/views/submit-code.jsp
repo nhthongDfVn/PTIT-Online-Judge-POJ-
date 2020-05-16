@@ -21,7 +21,7 @@
 			<form action="/action_page.php" method='POST' enctype="multipart/form-data">
 				<input class="form-control" id="disabledInput" type="text"
 						placeholder="Tên bài: ${exercise.name}" disabled>
-				<p>Ngôn ngữ</p> 
+					<p>Ngôn ngữ</p> 
 					<select
 						class="form-control" id="sel1" name="language">
 						<option>C</option>

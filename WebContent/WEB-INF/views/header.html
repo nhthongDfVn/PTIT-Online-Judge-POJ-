@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
     
 
 <nav class="navbar navbar-expand-sm">
@@ -7,12 +9,21 @@
   <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
   <ul class="navbar-nav">
     <li class="nav-item">
-     	<li class="nav-item">
-        <a class="nav-link" href="/PTITCoding/login.htm">Đăng nhập</a>
-      </li> 
-      <li class="nav-item">
-        <a class="nav-link" href="/PTITCoding/register.htm">Đăng kí</a>
-      </li> 
+    		<c:choose>
+				<c:when test="${sessionScope.username==null}">
+					<li class="nav-item"><a class="nav-link"
+						href="/PTITCoding/login.htm">Đăng nhập</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/PTITCoding/register.htm">Đăng kí</a></li>
+				</c:when>
+				<c:otherwise>
+					<li class="nav-item"><a class="nav-link">Xin chào</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="#"><%=session.getAttribute("username") %></a></li>
+			<li class="nav-item"><a class="nav-link"
+						href="/PTITCoding/logout.htm">| Đăng xuất</a></li>
+				</c:otherwise>
+			</c:choose>
     </li>
   </ul>
 </div>
@@ -31,15 +42,17 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/PTITCoding/exercise.htm?page=bt">Bài tập</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/PTITCoding/contest.htm">Cuộc thi</a>
-      </li>    
+      </li>  
       <li class="nav-item">
         <a class="nav-link" href="/PTITCoding/rank.htm">Bảng xếp hạng</a>
       </li>    
+      <c:if test="${sessionScope.isAdmin.equals(true)}">
+	 	      <li class="nav-item">
+        	 <a class="nav-link" href="/PTITCoding/admin.htm">Admin</a>
+      </li> 
+	 </c:if> 
       <li class="nav-item">
-        <a class="nav-link" href="/PTITCoding/admin.htm">Admin</a>
+        <a class="nav-link" href="#">Trang cá nhân</a>
       </li>  
        <li class="nav-item">
         <a class="nav-link" href="/PTITCoding/about-us.htm">Chúng tôi</a>

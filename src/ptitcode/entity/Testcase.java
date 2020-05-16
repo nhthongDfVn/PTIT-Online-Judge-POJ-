@@ -80,4 +80,6 @@ public class Testcase {
 	public void setExercise(Exercise exercise) {
 		this.exercise = exercise;
 	}
+
+	
 }

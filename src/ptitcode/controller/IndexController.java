@@ -22,50 +22,9 @@ public class IndexController {
 	@Autowired
 	SessionFactory factory;
 	
-	@RequestMapping("/login")
-	public String showLogin(){	
-		// goi den file login
-		return "login";
-	}
-	@RequestMapping("/register")
-	public String showSignup(){	
-		// goi den file register
-		return "register";
-	}
+
 	
-	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public String checkLogin(HttpServletRequest request){
-		String uname=request.getParameter("username");
-		String passwd= request.getParameter("password");
-		if (uname.equals("admin")&&passwd.equals("password")){
-			request.setAttribute("user", uname);
-			return "hello";
-		}
-		if (uname.equals("")){
-			request.setAttribute("message","Tên người dùng trống");
-		}
-		else
-		if (passwd.equals("")){
-			request.setAttribute("message","Mật khẩu trống");
-		}
-		else{
-			request.setAttribute("message", "Sai tài khoản hoặc mật khẩu");
-		}
-		return "login";
-	}
-	
-	@RequestMapping(value="/register",method=RequestMethod.POST)
-	public String checkRegister(HttpServletRequest request){
-		String uname=request.getParameter("username");
-		String passwd= request.getParameter("password");
-		String repasswd= request.getParameter("re-password");
-		if (passwd.equals(repasswd)){
-			request.setAttribute("message", "Đăng kí thành công");
-			return "register";
-		}
-		request.setAttribute("message", "Đăng kí thất bại");
-		return "register";
-	}
+
 
 	
 	@RequestMapping("/about-us")
@@ -73,14 +32,6 @@ public class IndexController {
 		// goi den file about-us
 		return "about-us";
 	}
-	
-
-	@RequestMapping("/contest")
-	public String showContest(){	
-		// goi den file contests
-		return "contests";
-	}
-	
 	
 	
 	

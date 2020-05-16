@@ -32,14 +32,25 @@
 		<div class="col-sm-8" style="margin-left: 30px ">
 			<c:forEach var="u" items="${post}" >
 				<div  class='cont'>
-					<h2>${u.title}</h2>
+					<h2><a href="/PTITCoding/post/view/${u.postID}.htm">${u.title}</a></h2>
 					<p>${u.body}</p>
 					<p> ${u.date}</p>
 				</div>
 			
 			</c:forEach>
+			<br> 
+			<ul class="pagination justify-content-center">
 			
-
+			<c:forEach begin="1" end="${allpage}" var="i" >
+				<c:if test="${i==current}">
+					<li class="page-item active"><a class="page-link" href="/PTITCoding/index.htm?page=${i}">${i}</a></li>
+				</c:if>
+				<c:if test="${i!=current}">
+					<li class="page-item"><a class="page-link" href="/PTITCoding/index.htm?page=${i}">${i}</a></li>
+				</c:if>
+			</c:forEach>
+				
+			</ul>
 		</div>
 		<div class="col-sm-3">
 			<%@include file="right_page.html"%>
