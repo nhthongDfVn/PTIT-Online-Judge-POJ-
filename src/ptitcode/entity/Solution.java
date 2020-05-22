@@ -12,13 +12,8 @@ import javax.persistence.Table;
 @Table(name="Solution")
 public class Solution {
 	@Id
-	@GeneratedValue
-	@Column(name="SolutionID")
-	private int solutionID;
-	
-	@ManyToOne
-	@JoinColumn(name="ExerciseID")
-	private Exercise exercise1;
+	@Column(name="ExerciseID")
+	private int exerciseID;
 	
 	@Column(name="code")
 	private String code;
@@ -35,22 +30,6 @@ public class Solution {
 		Language = language;
 	}
 
-	public int getSolutionID() {
-		return solutionID;
-	}
-
-	public void setSolutionID(int solutionID) {
-		this.solutionID = solutionID;
-	}
-
-	public Exercise getExercise() {
-		return exercise1;
-	}
-
-	public void setExercise(Exercise exercise) {
-		this.exercise1 = exercise;
-	}
-
 	public String getCode() {
 		return code;
 	}
@@ -58,6 +37,16 @@ public class Solution {
 	public void setCode(String code) {
 		this.code = code;
 	}
+
+	public int getExerciseID() {
+		return exerciseID;
+	}
+
+	public void setExerciseID(int exerciseID) {
+		this.exerciseID = exerciseID;
+	}
+	
+	
 	
 	
 }

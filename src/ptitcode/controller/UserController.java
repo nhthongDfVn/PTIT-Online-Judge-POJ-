@@ -52,15 +52,14 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String executeLogin(ModelMap model, @ModelAttribute("user")User user,HttpSession session,BindingResult error){
 		if (user.getUsername().trim().length()==0){
-			error.rejectValue("username","user","Vui lòng nhập trường này");
+			error.rejectValue("username","user","Vui lòng nhập Tên tài khoản");
 		}
 		if (user.getPassword().trim().length()==0){
-			error.rejectValue("password","user","Vui lòng nhập trường này");
+			error.rejectValue("password","user","Vui lòng nhập mật khẩu");
 		}
 		
 		if (!error.hasErrors()){
 			if (isUserExist(user.getUsername(),user.getPassword())==true){
-				model.addAttribute("message","User exist");
 				session.setAttribute("username",user.getUsername());
 				if (user.getUsername().equalsIgnoreCase("admin")){
 					session.setAttribute("isAdmin",true);
@@ -70,7 +69,7 @@ public class UserController {
 				}
 			}    
 			else {
-				model.addAttribute("message","Not found");
+				model.addAttribute("message","fail");
 			}
 		}	
 		return "login";
@@ -143,7 +142,24 @@ public class UserController {
 	@RequestMapping(value="/profile/view/{id}", method=RequestMethod.GET)
 	public String viewUserProfile(ModelMap model,@PathVariable("id") String username){
 		Session session = factory.getCurrentSession();
-		UserInfo userInfo = (UserInfo) session.get(UserInfo.class,username);
+		UserInfo userInfo = null;
+		userInfo = (UserInfo) session.get(UserInfo.class,username);
+		
+		if (userInfo==null){
+			userInfo= new UserInfo();
+			userInfo.setUsername(username);
+			Session session1 = factory.openSession();
+			Transaction t = session1.beginTransaction();
+			try {
+				session.save(userInfo);
+				t.commit();	
+			} catch (Exception e) {
+				t.rollback();
+				e.getMessage();
+			} 
+			userInfo = (UserInfo) session.get(UserInfo.class,username);	
+		}
+		
 		model.addAttribute("userInfo",userInfo);
 		return "profile/viewUserInfo";
 	}
@@ -179,17 +195,37 @@ public class UserController {
 		return "profile/updateUserInfo";
 	}
 	
-	
-	
-	public boolean saveImage(MultipartFile photo){
-		boolean result=true;
-		Random rand = new Random();
-		try {
-			String name="";
-			for (int i=0;i<7;i++){
-				name=name+String.valueOf(rand.nextInt(99));
+	@RequestMapping(value="/profile/update/image/{id}", method=RequestMethod.POST)
+	public String updateUserImageProfile(ModelMap model,@PathVariable("id") String username, @RequestParam("image") MultipartFile image){
+		
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
+		
+		if (image.isEmpty()){
+			model.addAttribute("uploadErr", "Vui lòng chọn file");
+		}
+		else
+		{
+			if (saveProfileImage(image, username)==true){
+				model.addAttribute("message","success");
 			}
-			String photoPath = context.getRealPath("/image/" + name);
+			else{
+				model.addAttribute("message","fail");
+			}
+		}
+		UserInfo post1 = (UserInfo) session.get(UserInfo.class,username);
+		model.addAttribute("userInfo", post1);
+	
+		return "profile/updateUserInfo";
+	}
+	
+	
+	
+	public boolean saveProfileImage(MultipartFile photo, String username){
+		boolean result=true;
+		try {
+			System.out.println(context.getRealPath(""));
+			String photoPath = context.getRealPath("/images/profile/" + username+".png");
 			photo.transferTo(new File(photoPath));
 		} catch (Exception e) {
 			System.out.print(e.getMessage());

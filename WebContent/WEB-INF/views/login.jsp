@@ -30,12 +30,16 @@
 
 <body>
 <%@include  file="header.html" %>
-
+<div class="container-fluid">
 	<div class="row" style="margin-top: 30px">
-		<div class="col-sm-8">
+		<div class="col-xl-8">
 			<div class="container">
-			<p style="color: Red;">${message}</p>
-			
+				<c:if test="${message.equals('fail')}">
+					<div class="alert alert-danger">
+						<strong>Sai tên tài khoản hoặc mật khẩu</strong> Vui lòng thử lại
+					</div>
+				</c:if>
+
 				<h2>Đăng nhập</h2>
 				<form:form action="/PTITCoding/login.htm" method="POST" modelAttribute="user">
 					<div class="form-group">
@@ -53,18 +57,12 @@
 					<a href="/PTITCoding/register.htm">Chưa có tài khoản?</a> <br><br>
 					<button type="submit" class="btn btn-primary">Đăng nhập</button>
 				</form:form>
-				
-				
 			</div>
 		</div>
-		<div class="col-sm-3">
+		<div class="col-xl-4">
 			<%@include file="right_page.html"%>
-			
-			
-			
-			
-			
 		</div>
 	</div>
+</div>
 </body>
 </html>

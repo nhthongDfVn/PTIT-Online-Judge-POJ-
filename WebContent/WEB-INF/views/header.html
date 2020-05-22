@@ -5,7 +5,7 @@
     
 
 <nav class="navbar navbar-expand-sm">
-  <a class="navbar-brand" href="#">Navbar</a>
+  <a class="navbar-brand" href="#">PTIT Online Judge</a>
   <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
   <ul class="navbar-nav">
     <li class="nav-item">
@@ -19,7 +19,7 @@
 				<c:otherwise>
 					<li class="nav-item"><a class="nav-link">Xin chào</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="#"><%=session.getAttribute("username") %></a></li>
+						href="/PTITCoding/profile/view/${username}.htm"><%=session.getAttribute("username") %></a></li>
 			<li class="nav-item"><a class="nav-link"
 						href="/PTITCoding/logout.htm">| Đăng xuất</a></li>
 				</c:otherwise>
@@ -31,7 +31,7 @@
 
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-  <a class="navbar-brand" href="#">Navbar</a>
+  <a class="navbar-brand" href="#">POJ</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -52,7 +52,7 @@
       </li> 
 	 </c:if> 
       <li class="nav-item">
-        <a class="nav-link" href="#">Trang cá nhân</a>
+        <a class="nav-link" href="/PTITCoding/profile/view/${username}.htm">Trang cá nhân</a>
       </li>  
        <li class="nav-item">
         <a class="nav-link" href="/PTITCoding/about-us.htm">Chúng tôi</a>

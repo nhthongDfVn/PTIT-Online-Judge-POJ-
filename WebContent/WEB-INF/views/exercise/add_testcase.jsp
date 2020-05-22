@@ -8,6 +8,7 @@
 <head>
 <title>Thêm testcase</title>
   <meta charset="utf-8">
+  <base href="${pageContext.servletContext.contextPath}/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -29,14 +30,14 @@
 				<ul class="navbar-nav">
 					<li class="nav-item">
 					<li class="nav-item"><a class="nav-link"
-						href="#">Thêm bài tập</a></li>
+						href="/PTITCoding/exercise/view/${exercise.exerciseID}.htm">Bài tập</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="/PTITCoding/exercise.htm?page=bbn">Bộ test</a></li>
+						href="/PTITCoding/exercise/add-testcase/${exercise.exerciseID}.htm">Bộ test</a></li>
 					</li>
 				</ul>
 			</div>
 			</nav>	
-			<h4 style="text-align: center">Thêm testcase</h4	>
+			<h4 style="text-align: center; margin-bottom: 40px">Thêm testcase</h4	>
 			
 			<div style="margin-left: 50px">
 			<c:if test="${message.equals('success')}">
@@ -50,30 +51,22 @@
 						<strong>Thất bại!</strong> Không thể thêm mới testcase
 					</div>
 			</c:if>
-			<form:form action="/PTITCoding/exercise/add-testcase.htm" modelAttribute="testcase" method="POST" >
-				<table class="table  ">
-					<tbody>
-					<form:input  class="form-control" placeholder="1"  path="exercise.exerciseID" value="${exercise.exerciseID}" type="hidden" />	
-						<tr>
-							<td>Mã testcase</td>
-							<td><form:input placeholder="1"  path="numtest"/></td>
-						</tr>
-						<tr>
-							<td>Input</td>	
-							<td><form:textarea class="form-control" placeholder="1 3 4" rows="3"  path="input"/></td>
-						</tr>
-						<tr>
-							<td>Output</td>
-							<td><form:textarea class="form-control" placeholder="8" rows="3"  path="output"/></td>
-							
-						</tr>
-						<tr>
-							<td class="w-25"></td>
-							<td class="w-50"><button type="submit" class="btn btn-primary">Thêm testcase</button></td>
-						</tr>
-					</tbody>		
-				</table>
-			</form:form>
+			
+			<c:forEach var="s" items="${items}">
+				<div class="alert alert-success">
+							Input
+							<textarea disabled rows="3" cols="110">${s.input}</textarea>  
+							Output
+							<textarea disabled rows="3" cols="110">${s.output}</textarea> 
+						</div>
+			</c:forEach>
+			
+			<form
+						action="/PTITCoding/exercise/add-testcase/${exercise.exerciseID}.htm"
+						method="POST" enctype="multipart/form-data" >
+						<input type="file" name="file">
+						<button>Thêm mới testcase</button>
+					</form>
 
 
 			</div>

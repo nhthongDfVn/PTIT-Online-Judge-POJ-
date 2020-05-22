@@ -23,6 +23,7 @@ public class AdminController {
 	
 	
 	
+	
 	@RequestMapping("all-post")
 	public String showAllPost(ModelMap model){
 		Session session =factory.getCurrentSession();

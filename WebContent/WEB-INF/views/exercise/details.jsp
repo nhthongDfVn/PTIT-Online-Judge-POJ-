@@ -35,10 +35,10 @@
 						href="/PTITCoding/exercise.htm?page=bcb">Bảng chấm bài</a></li>
 					</li>
 					<li class="nav-item"><a class="nav-link"
-						href="/PTITCoding/exercise.htm?page=bcb">Test case</a></li>
+						href="/PTITCoding/exercise/add-testcase/${exercise.exerciseID}.htm">Test case</a></li>
 					</li>
 					<li class="nav-item"><a class="nav-link"
-						href="/PTITCoding/exercise.htm?page=bcb">Bài giải</a></li>
+						href="/PTITCoding/exercise/add-solution/${exercise.exerciseID}.htm">Bài giải</a></li>
 					</li>
 				</ul>
 			</div>

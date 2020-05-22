@@ -29,9 +29,9 @@
 				<ul class="navbar-nav">
 					<li class="nav-item">
 					<li class="nav-item"><a class="nav-link"
-						href="#">Chỉnh sửa bài tập</a></li>
+						href="/PTITCoding/exercise/update/${exercise.exerciseID}.htm">Chỉnh sửa bài tập</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="/PTITCoding/exercise.htm/testcase/">Bộ test</a></li>
+						href="/PTITCoding/exercise/view/testcase/${exercise.exerciseID}.htm">Bộ test</a></li>
 					</li>
 				</ul>
 			</div>
@@ -59,7 +59,7 @@
 								<td>Xoá</a></td>
 							</tr>
 						</c:forEach>
-						<a href="/PTITCoding/exercise/add-testcase/.htm">Thêm testcase</a>
+						<a href="/PTITCoding/exercise/add-testcase/${exercise.exerciseID}.htm">Thêm testcase</a>
 
 					</tbody>
 				</table>

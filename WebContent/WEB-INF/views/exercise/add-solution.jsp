@@ -10,6 +10,7 @@
 <head>
 <title>Bài tập</title>
   <meta charset="utf-8">
+   <base href="${pageContext.servletContext.contextPath}/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -31,42 +32,50 @@
 					<li class="nav-item"><a class="nav-link"
 						href="/PTITCoding/submit/${exercise.exerciseID}.htm">Nộp bài</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="/PTITCoding/exercise.htm?page=bbn">Bài bạn nộp</a></li>
+						href="#">Bài bạn nộp</a></li>
 					</li>
 					<li class="nav-item"><a class="nav-link"
-						href="/PTITCoding/exercise.htm?page=bcb">Bảng chấm bài</a></li>
+						href="#">Bảng chấm bài</a></li>
 					</li>
 					<li class="nav-item"><a class="nav-link"
-						href="/PTITCoding/exercise.htm?page=bcb">Test case</a></li>
+						href="#">Test case</a></li>
 					</li>
 					<li class="nav-item"><a class="nav-link"
-						href="/PTITCoding/exercise.htm?page=bcb">Bài giải</a></li>
+						href="#">Bài giải</a></li>
 					</li>
 				</ul>
 			</div>
 			</nav>	
+		
 				
 			<div style="margin-left: 50px">
-			  ${message}
-				<form:form action="/PTITCoding/exercise/add-solution/${exercise.exerciseID}.htm" modelAttribute="solution" method="POST" >
-				<div class="form-group">
-						<label for="email">Tên bài:</label> 
-						<form:input class="form-control" placeholder="1"  path="exercise.exerciseID" value="${exercise.exerciseID}" />	
-						<form:select class="form-control"  path="Language">
-									<form:option value="C"/>
-									<form:option value="C++"/>	
-						</form:select>			
-						<form:input class="form-control" placeholder="1"  path="code" />
-						<td class="w-50"><button type="submit" class="btn btn-primary">Thêm testcase</button></td>
-				
+			<c:if test="${message.equals('success')}">
+
+					<div class="alert alert-success">
+						<strong>Đã có Bài giải mẫu</strong> </a>
+					</div>
+			</c:if>
+			<c:if test="${message.equals('fail')}">
+					<div class="alert alert-danger">
+						<strong>Chưa có lời giải hoặc Lời giải không hợp lệ!</strong>
+					</div>
+			</c:if>	
+			
+				<div style="margin-top: 50px">
+					<c:if test="${message.equals('success')}">
+
+						<div class="alert alert-success">
+							<textarea disabled rows="15" cols="110">${body}</textarea>  
+						</div>
+					</c:if>
+					<form
+						action="/PTITCoding/exercise/add-solution/${exercise.exerciseID}.htm"
+						method="POST" enctype="multipart/form-data" >
+						<input type="file" name="file">
+						<button>Cập nhật</button>
+					</form>
 				</div>
-				
-			</form:form>
-			</div>
-			
-			
-			
-				
+			</div>	
 		</div>
 		<div class="col-sm-3" style="margin-top: 30px">
 			<%@include file="../right_page.html"%>

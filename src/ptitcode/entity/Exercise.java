@@ -42,8 +42,6 @@ public class Exercise {
 	@Column(name="output")
 	private String output;
 	
-	@OneToMany(mappedBy="exercise1",fetch=FetchType.EAGER)
-	private Collection<Solution> solutions;
 	
 	@OneToMany(mappedBy="exercise",fetch=FetchType.EAGER)
 	private Collection<Testcase> testcase;

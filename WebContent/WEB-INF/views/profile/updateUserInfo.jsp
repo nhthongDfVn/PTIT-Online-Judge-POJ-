@@ -29,6 +29,15 @@
 					</div>
 				</c:if>
 				<h3 style="text-align: center">Thông tin cá nhân</h3>
+				<form action="/PTITCoding/profile/update/image/${userInfo.username}.htm"
+				method="post" enctype="multipart/form-data">
+				<input type="file" name="image">
+				<button>Cập nhật</button>
+				
+				</form>
+				
+				
+				
 				<form:form action="/PTITCoding/profile/update/${userInfo.username}.htm"
 					modelAttribute="userInfo"  method="POST">
 					<h6>Username</h6>

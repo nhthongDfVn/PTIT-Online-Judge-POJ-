@@ -29,9 +29,9 @@
 				<ul class="navbar-nav">
 					<li class="nav-item">
 					<li class="nav-item"><a class="nav-link"
-						href="#">Chỉnh sửa bài tập</a></li>
+						href="/PTITCoding/exercise/update/${exercise.exerciseID}.htm">Chỉnh sửa bài tập</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="/PTITCoding/exercise.htm?page=bbn">Bộ test</a></li>
+						href="/PTITCoding/exercise/view/testcase/${exercise.exerciseID}.htm">Bộ test</a></li>
 					</li>
 				</ul>
 			</div>
@@ -53,10 +53,7 @@
 			<form:form action="/PTITCoding/exercise/update/${exercise.exerciseID}.htm" modelAttribute="exercise" method="POST" >
 				<table class="table  ">
 					<tbody>	
-						<tr>
-							<td class="w-25">ID</td>
-							<td class="w-50"><form:input placeholder="ID"  path="exerciseID"/></td>
-						</tr>						
+							<form:input type="hidden" placeholder="ID"  path="exerciseID"/>
 						<tr>
 							<td class="w-25">Tên bài tập</td>
 							<td class="w-50"><form:input placeholder="Tính tổng"  path="name"/></td>

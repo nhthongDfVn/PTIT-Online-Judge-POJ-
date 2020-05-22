@@ -10,12 +10,26 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+<script language="javascript" type="text/javascript"
+	src="../editarea/edit_area/edit_area_full.js"></script>
+<script language="javascript" type="text/javascript">
+	editAreaLoader.init({
+		id : "textarea_1" // textarea id
+		,
+		syntax : "css" // syntax to be uses for highgliting
+		,
+		start_highlight : true
+	// to display with highlight mode on start-up
+	});
+</script>
+
 </head>
 <body>
 <%@include  file="header.html" %>
 <div class="row" style="margin-top: 30px">
 		<div class="col-sm-8" style="margin-left: 30px" >
-			<h3 style="text-align: center">Nộp bài giải </h3>
+			<h3 style="text-align: center; margin-bottom: 30px">Nộp bài giải </h3>
 
 
 			<form action="/action_page.php" method='POST' enctype="multipart/form-data">
@@ -24,19 +38,11 @@
 					<p>Ngôn ngữ</p> 
 					<select
 						class="form-control" id="sel1" name="language">
-						<option>C</option>
+	
 						<option>C++</option>
-						<option>C++14</option>
-						<option>Java</option>
-						<option>Python</option>
-						<option>Python3</option>
-						<option>Scala</option>
-						<option>PHP</option>
-						<option>Perl</option>
-						<option>CSharp</option>
 					</select>
 					<label for="comment">Bài giải</label>
-					<textarea class="form-control" placeholder="Code" name="code" rows="5"></textarea>
+					<textarea id="textarea_1" class="form-control" placeholder="Code" name="code" rows="15"></textarea>
 					<p>Hoặc nộp bằng file</p>
 					<input type="file" class="form-control-file border" name="myfile"><br>
 				<button type="submit" class="btn btn-primary">Submit</button>

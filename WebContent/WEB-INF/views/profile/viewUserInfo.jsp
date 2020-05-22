@@ -5,6 +5,7 @@
 <head>
 <title>Chúng tôi</title>
   <meta charset="utf-8">
+  <base href="${pageContext.servletContext.contextPath}/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -19,8 +20,9 @@
 			<h2>${userInfo.school}</h2>
 			<h2>${userInfo.classs}</h2>
 			<h2>${userInfo.email}</h2>
+			Tên đầy đủ
 			<h2>${userInfo.fullname}</h2>
-			<a href="#">Cập nhật thông tin</a>
+			<a href="/PTITCoding/profile/update/${userInfo.username}.htm">Cập nhật thông tin</a>
 
 		</div>
 		<div class="col-sm-3">

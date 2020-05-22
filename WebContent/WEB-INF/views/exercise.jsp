@@ -16,7 +16,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-
+<div class="container-fluid">
 <%@include  file="header.html" %>
 
 <div class="row" style="margin-top: 0px">
@@ -142,5 +142,6 @@ function GetCellValues() {
 }
 	
 	</script>
+	</div>
 </body>
 </html>
