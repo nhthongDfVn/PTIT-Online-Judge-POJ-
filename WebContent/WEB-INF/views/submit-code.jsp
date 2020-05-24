@@ -32,8 +32,8 @@
 			<h3 style="text-align: center; margin-bottom: 30px">Nộp bài giải </h3>
 
 
-			<form action="/action_page.php" method='POST' enctype="multipart/form-data">
-				<input class="form-control" id="disabledInput" type="text"
+			<form action="/PTITCoding/submit/${exercise.exerciseID}.htm" method='POST' enctype="multipart/form-data">
+				<input class="form-control" id="disabledInput" type="text" name="exerciseID" value="${exercise.exerciseID}"
 						placeholder="Tên bài: ${exercise.name}" disabled>
 					<p>Ngôn ngữ</p> 
 					<select

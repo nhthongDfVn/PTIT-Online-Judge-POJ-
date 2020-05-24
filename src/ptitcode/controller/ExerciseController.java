@@ -2,8 +2,10 @@ package ptitcode.controller;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,11 +44,22 @@ public class ExerciseController {
 	
 	@RequestMapping("/exercise")
 	public String showExercise1(ModelMap model){	
+		// exercise
 		Session session= factory.getCurrentSession();
 		String hql="FROM Exercise";
 		Query query= session.createQuery(hql);
 		List<Exercise> list=query.list();
-		model.addAttribute("exercise",list);	
+		model.addAttribute("exercise",list);		
+		
+		
+		//submit
+		String hql1="FROM Submit";
+		Query query1= session.createQuery(hql1);
+		List<Submit> list1=query1.list();
+		model.addAttribute("submit",list1);	
+		
+		
+		
 		return "exercise";
 	}
 	
@@ -129,10 +142,11 @@ public class ExerciseController {
 		// read testcase
 		File directory=new File(context.getRealPath("/testcase/"+String.valueOf(id)+"/"));
 	    int fileCount=directory.list().length;
-	    fileCount=fileCount;
+	    fileCount=fileCount/2;
 	    for (int i=1;i<=fileCount;i++){
 	    	Testcase test= new Testcase();
 	    	test.setInput(readTestcaseInput(id,i));
+	    	test.setOutput(readTestcaseOutput(id,i));
 	    	list.add(test);
 	    }
 	    
@@ -166,10 +180,11 @@ public class ExerciseController {
 			// read testcase
 			File directory=new File(context.getRealPath("/testcase/"+String.valueOf(id)+"/"));
 		    int fileCount=directory.list().length;
-		    fileCount=fileCount;
+		    fileCount=fileCount/2;
 		    for (int i=1;i<=fileCount;i++){
 		    	Testcase test= new Testcase();
 		    	test.setInput(readTestcaseInput(id,i));
+		    	test.setOutput(readTestcaseOutput(id,i));
 		    	list.add(test);
 		    }   
 		    model.addAttribute("items",list);
@@ -301,6 +316,12 @@ public class ExerciseController {
 			try {
 				String photoPath = context.getRealPath("/testcase/"+String.valueOf(exerciseID)+"/"+String.valueOf(fileCount+1)+".inp");
 				testcase.transferTo(new File(photoPath));
+				writeToInputFile(String.valueOf(exerciseID),String.valueOf(fileCount+1));
+				if (RunCode()==false) 
+					{
+					DeleteTestCaseFile(exerciseID,fileCount+1);
+					result=false;
+					}
 			} catch (Exception e) {
 				System.out.print(e.getMessage());
 				result=false;
@@ -368,5 +389,69 @@ public class ExerciseController {
 			}
 			return result;
 		}
+	 
+	 
+	 public void writeToInputFile(String exesrc,String inout) 
+			 throws IOException {
+		    FileWriter fileWriter = new FileWriter(context.getRealPath("/input.txt"));
+		    PrintWriter printWriter = new PrintWriter(fileWriter);
+		    printWriter.println(context.getRealPath("")+"solution\\"+exesrc+".exe");
+		    printWriter.println(context.getRealPath("")+"testcase\\"+exesrc+"\\"+inout+".inp");
+		    printWriter.print(context.getRealPath("")+"testcase\\"+exesrc+"\\"+inout+".out");
+		    printWriter.close();
+	}	 
+	 
+	 public boolean RunCode(){
+		    boolean result=true;
+			String s="cd ../../Workspace/Eclipse/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/PTITCoding&chamcode.exe < input.txt";
+			
+			String commandArray[] = {"cmd", "/c", s}; 
+			try {
+				Process process = Runtime.getRuntime().exec(commandArray); 
+			 
+			    BufferedReader reader = new BufferedReader(
+			            new InputStreamReader(process.getInputStream()));
+			    BufferedReader errinput = new BufferedReader(new InputStreamReader(
+			    		process.getErrorStream()));
+			    String line;
+			    while ((line = reader.readLine()) != null) {
+			        System.out.println(line);
+			    }
+			    while ((line = errinput.readLine()) != null) {
+			        System.out.println(line);
+			    }
+			    if (errinput.readLine() != null) result=false;
+			    reader.close();
+			 
+			} catch (IOException e) {
+			    e.printStackTrace();
+			}
+			return result;
+		} 
+	 public void DeleteTestCaseFile(int exerciseID, int num){
+		 String exesrc= String.valueOf(exerciseID);
+		 String inout=String.valueOf(num);
+		 try {
+	            File file = new File(context.getRealPath("")+"testcase\\"+exesrc+"\\"+inout+".inp");
+	            if (file.delete()) {
+	                System.out.println(file.getName() + " is deleted!");
+	            } else {
+	                System.out.println("Delete operation is failed.");
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+		 try {
+	            File file = new File(context.getRealPath("")+"testcase\\"+exesrc+"\\"+inout+".out");
+	            if (file.delete()) {
+	                System.out.println(file.getName() + " is deleted!");
+	            } else {
+	                System.out.println("Delete operation is failed.");
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+		 
+	 }
 	 
 }
