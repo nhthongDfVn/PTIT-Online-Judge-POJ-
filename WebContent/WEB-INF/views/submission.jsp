@@ -9,7 +9,7 @@
 	  <th>ID</th>
 	  <th>Thời điểm nộp</th>
 	  <th>Người nộp</th>
-	  <th>Tên bài</th>
+	  <th>Mã bài</th>
 	  <th>Ngôn ngữ</th>
 	  <th>Kết quả</th>
 	  <th>Thời gian chạy</th>
@@ -17,11 +17,11 @@
 	</tr>
 		<c:forEach var="u" items="${submit}">
 			<tr>
-				<td>${u.submitID}</td>
-				<td>${u.timesubmit}</td>
-				<td>${u.username}</td>
-				<td>${u.exerciseID}</td>
-				<td> C++ </td>
+				<td><a href="/PTITCoding/submit/view/${u.submitID}.htm">${u.submitID}</a></td>
+				<td><a href="/PTITCoding/submit/view/${u.submitID}.htm">${u.timesubmit}</a></td>
+				<td><a href="/PTITCoding/submit/view/${u.submitID}.htm">${u.username}</a></td>
+				<td><a href="/PTITCoding/exercise/view/${u.exerciseID}.htm">${u.exerciseID}</a></td>
+				<td><a href="/PTITCoding/submit/view/${u.submitID}.htm">C++</a> </td>
 				<td>
 				<c:choose>
 					<c:when test="${u.answer==-1}"><p style="color:red">Biên dịch lỗi</p> </c:when>
@@ -35,9 +35,23 @@
 		</c:forEach>
 
 	</table>
-	
-	
-	
-	
-  </div>
+	<br>
+	<ul class="pagination justify-content-center">
+
+		<c:forEach begin="1" end="${allpage}" var="i">
+			<c:if test="${i==current}">
+				<li class="page-item active"><a class="page-link"
+					href="/PTITCoding/exercise.htm?page=bcb&next=${i}">${i}</a></li>
+			</c:if>
+			<c:if test="${i!=current}">
+				<li class="page-item"><a class="page-link"
+					href="/PTITCoding/exercise.htm?page=bcb&next=${i}">${i}</a></li>
+			</c:if>
+		</c:forEach>
+
+	</ul>
+
+
+
+</div>
 

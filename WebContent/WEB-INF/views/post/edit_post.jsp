@@ -14,6 +14,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   <script src="../../ckeditor/ckeditor.js"></script>
+
+<c:if test="${!sessionScope.isAdmin.equals(true)}">
+	<meta http-equiv="refresh" content="0; url = /PTITCoding/index.htm" />
+</c:if>
 </head>
 <style>
 	table.fixed { table-layout:fixed; }
@@ -22,6 +26,7 @@
 
 <body>
 <%@include  file="../header.html" %>
+<div class="container-fluid">
 <div class="row" style="margin-top: 10px">
 		<div class="col-sm-8" style="margin-left: 30px ">
 			
@@ -39,11 +44,13 @@
 			</c:if>
 			<form:form action="/PTITCoding/post/update/${post.postID}.htm" modelAttribute="post" method="POST" >
 			<h6>Tiêu đề</h6>
+			<form:errors style="color:red" path="title"/>
 			<form:input class="form-control" placeholder="Tên bài viết"  path="title"/>
 			<form:input class="form-control" type="hidden"  path="date"/>
 			<form:input class="form-control" type="hidden"  path="postID"/>
 			<h6>Nội dung</h6>
-			<form:textarea class="form-control" placeholder="Nội dung bài viết" rows="10"  path="body"/>
+			<form:errors style="color:red" path="body"/>
+			<form:textarea class="form-control" placeholder="Nội dung bài viết" rows="20"  path="body"/>
 			<br>
 			<div class="col text-center">
      			 	<button  type="submit" class="btn btn-primary">Lưu chỉnh sửa</button>

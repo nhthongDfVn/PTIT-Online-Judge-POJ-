@@ -21,6 +21,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +43,30 @@ public class ExerciseController {
 	ServletContext context;
 	
 	
+	public int getAllPage(){
+		int numPost=20;
+		int numPage=0;
+		Session session = factory.getCurrentSession();
+		String hql = "select count(*) from Submit";
+		Query query = session.createQuery(hql);
+		Long count =(long)query.uniqueResult();
+		if (count%numPost==0) numPage=(int) (count/numPost);
+		else numPage=(int) (count/numPost+1);
+		return numPage;
+	}
+	
+	public List<Submit> getPage(int i){
+		Session session = factory.getCurrentSession();
+		String hql = "FROM Submit ORDER BY submitID DESC";
+		Query query = session.createQuery(hql);
+		query.setFirstResult(i);
+		query.setMaxResults(20);
+		List<Submit> list = query.list();
+		return list;
+	}
+	
+	
+	
 	@RequestMapping("/exercise")
 	public String showExercise1(ModelMap model){	
 		// exercise
@@ -52,14 +77,34 @@ public class ExerciseController {
 		model.addAttribute("exercise",list);		
 		
 		
-		//submit
-		String hql1="FROM Submit";
-		Query query1= session.createQuery(hql1);
-		List<Submit> list1=query1.list();
-		model.addAttribute("submit",list1);	
+		//submit	
+		int numPage=getAllPage();
+		List<Submit> list1 = getPage(0);
+		model.addAttribute("submit", list1);
+		model.addAttribute("allpage",numPage);
+		model.addAttribute("current",1);
+		return "exercise";
+	}
+	
+	@RequestMapping(value="/exercise",params="next")
+	public String showExercise2(ModelMap model, HttpServletRequest request){	
+		// exercise
+		Session session= factory.getCurrentSession();
+		String hql="FROM Exercise";
+		Query query= session.createQuery(hql);
+		List<Exercise> list=query.list();
+		model.addAttribute("exercise",list);		
 		
 		
+		//submit	
+		int numPost=20;
+		int numPage=getAllPage();
+		int page=Integer.valueOf(request.getParameter("next"));
 		
+		List<Submit> list1 = getPage(numPost*(page-1));
+		model.addAttribute("submit", list1);
+		model.addAttribute("allpage",numPage);
+		model.addAttribute("current",page);
 		return "exercise";
 	}
 	
@@ -204,20 +249,42 @@ public class ExerciseController {
 		
 	// add new exercise POST // insert
 	@RequestMapping(value="/exercise/add-exercise", method=RequestMethod.POST)
-	public String insertExercise(ModelMap model, @ModelAttribute("exercise") Exercise exercise){
-		Session session = factory.openSession();
-		Transaction t= session.beginTransaction();
-		try{
-			session.save(exercise);
-			t.commit();
-			model.addAttribute("message","success");
+	public String insertExercise(ModelMap model, @ModelAttribute("exercise") Exercise exercise, BindingResult error){
+		
+		if (exercise.getName().trim().length()==0){
+			error.rejectValue("name","exercise","Tên không được để trống");
 		}
-		catch(Exception e){
-			t.rollback();
-			model.addAttribute("message","fail");
+		else if (exercise.getType().trim().length()==0){
+			error.rejectValue("type","exercise","Dạng bài không được trống");
 		}
-		finally {
-			//session.close();
+		else if (exercise.getName().trim().length()==0){
+			error.rejectValue("name","exercise","Tên không được để trống");
+		}
+		else if (exercise.getDetail().trim().length()==0){
+			error.rejectValue("detail","exercise","Mô tả không được để trống");
+		}
+		else if (exercise.getInput().trim().length()==0){
+			error.rejectValue("input","exercise","Input không được để trống");
+		}
+		else if (exercise.getOutput().trim().length()==0){
+			error.rejectValue("output","exercise","Output không được để trống");
+		}
+		
+		if (!error.hasErrors()){
+			Session session = factory.openSession();
+			Transaction t= session.beginTransaction();
+			try{
+				session.save(exercise);
+				t.commit();
+				model.addAttribute("message","success");
+			}
+			catch(Exception e){
+				t.rollback();
+				model.addAttribute("message","fail");
+			}
+			finally {
+				//session.close();
+			}
 		}
 		return "admin/new_exercise";
 	}
@@ -234,21 +301,51 @@ public class ExerciseController {
 	// edit exercise // edit   // POST request
 	
 	@RequestMapping(value = "/exercise/update/{id}", method = RequestMethod.POST)
-	public String update(ModelMap model, @ModelAttribute("exercise") Exercise exercise/*, @PathVariable("id") int id*/) {	
-		Session session = factory.openSession();
-		Transaction t = session.beginTransaction();
-		try {
-			session.update(exercise);
-			t.commit();
-			model.addAttribute("message","success");
-		} catch (Exception e) {
-			t.rollback();
-			System.out.print(e.getMessage());
-			model.addAttribute("message","fail");	
-		} finally {
-			//Exercise exercise1 = (Exercise) session.get(Exercise.class,id);
-			//model.addAttribute("exercise", exercise1);
-			session.close();			
+	public String update(ModelMap model, @ModelAttribute("exercise") Exercise exercise, @PathVariable("id") int id, BindingResult error) {	
+		
+		if (exercise.getName().trim().length()==0){
+			error.rejectValue("name","exercise","Tên không được để trống");
+		}
+		else if (exercise.getType().trim().length()==0){
+			error.rejectValue("type","exercise","Dạng bài không được trống");
+		}
+		else if (exercise.getName().trim().length()==0){
+			error.rejectValue("name","exercise","Tên không được để trống");
+		}
+		else if (exercise.getDetail().trim().length()==0){
+			error.rejectValue("detail","exercise","Mô tả không được để trống");
+		}
+		else if (exercise.getInput().trim().length()==0){
+			error.rejectValue("input","exercise","Input không được để trống");
+		}
+		else if (exercise.getOutput().trim().length()==0){
+			error.rejectValue("output","exercise","Output không được để trống");
+		}
+		
+		if (!error.hasErrors()) {
+
+			Session session = factory.openSession();
+			Transaction t = session.beginTransaction();
+			Session session1 = factory.openSession();
+			Transaction t1 = session1.beginTransaction();
+			Exercise exercise1 = (Exercise) session1.get(Exercise.class, id);
+			exercise.setSolves(exercise1.getSolves());
+			System.out.println(exercise.getSolves());
+			try {
+				session.update(exercise);
+				t.commit();
+				model.addAttribute("message", "success");
+			} catch (Exception e) {
+				t.rollback();
+				System.out.print(e.getMessage());
+				model.addAttribute("message", "fail");
+			} finally {
+				// Exercise exercise1 = (Exercise)
+				// session.get(Exercise.class,id);
+				// model.addAttribute("exercise", exercise1);
+				session.close();
+				session1.close();
+			}
 		}
 		return "exercise/edit";
 	}

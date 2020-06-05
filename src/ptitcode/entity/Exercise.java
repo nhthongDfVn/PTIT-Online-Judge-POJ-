@@ -42,10 +42,21 @@ public class Exercise {
 	@Column(name="output")
 	private String output;
 	
+	@Column(name="solve")
+	private int solves;
 	
-	@OneToMany(mappedBy="exercise",fetch=FetchType.EAGER)
-	private Collection<Testcase> testcase;
 	
+	//@OneToMany(mappedBy="exercise",fetch=FetchType.EAGER)
+	//private Collection<Testcase> testcase;
+	
+
+	public int getSolves() {
+		return solves;
+	}
+
+	public void setSolves(int solves) {
+		this.solves = solves;
+	}
 
 	public String getName() {
 		return name;

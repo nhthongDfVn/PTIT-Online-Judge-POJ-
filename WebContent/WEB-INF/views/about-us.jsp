@@ -12,8 +12,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container-fluid">
 <%@include  file="header.html" %>
+<div class="container-fluid">
 <div class="row" style="margin-top: 30px">
 		<div class="col-sm-8">
 			<div class="card" style="width: 400px">

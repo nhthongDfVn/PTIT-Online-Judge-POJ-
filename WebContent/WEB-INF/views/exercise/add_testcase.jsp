@@ -31,9 +31,6 @@
 					<li class="nav-item">
 					<li class="nav-item"><a class="nav-link"
 						href="/PTITCoding/exercise/view/${exercise.exerciseID}.htm">Bài tập</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="/PTITCoding/exercise/add-testcase/${exercise.exerciseID}.htm">Bộ test</a></li>
-					</li>
 				</ul>
 			</div>
 			</nav>	

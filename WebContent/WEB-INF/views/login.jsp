@@ -44,13 +44,13 @@
 				<form:form action="/PTITCoding/login.htm" method="POST" modelAttribute="user">
 					<div class="form-group">
 						<label for="email">Tên người dùng:</label> 
-						<form:input 
+						<form:input required="required" 
 							class="form-control" placeholder="Tên người dùng" path="username"/>
 							<form:errors style="color:red" path="username"/>
 					</div>
 					<div class="form-group">
 						<label for="pwd">Mật khẩu:</label> 
-						<form:input type="password"
+						<form:input type="password" required="required"
 							class="form-control"  placeholder="Mật khẩu" path="password"/> 
 							<form:errors style="color:red"  path="password"/>
 					</div>

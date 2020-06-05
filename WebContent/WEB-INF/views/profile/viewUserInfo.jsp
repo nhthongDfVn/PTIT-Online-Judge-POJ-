@@ -14,6 +14,7 @@
 </head>
 <body>
 <%@include  file="../header.html" %>
+<div class="container-fluid">
 <div class="row" style="margin-top: 30px">
 		<div class="col-sm-8">
 			<h2>${userInfo.user.username}</h2>
@@ -30,6 +31,6 @@
 		</div>
 </div>
 
-
+</div>
 </body>
 </html>

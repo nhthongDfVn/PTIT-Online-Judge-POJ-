@@ -16,9 +16,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container-fluid">
 <%@include  file="header.html" %>
-
+<div class="container-fluid">
 <div class="row" style="margin-top: 0px">
 		<div class="col-sm-8">
 
@@ -51,7 +50,13 @@
 			else {
 		%>
 		  <input class="form-control" id="myInput" type="text" placeholder="Mã bài, tên bài, dạng bài, ...">
-			<table id="exercise" class="table table-hover"
+				<c:if test="${sessionScope.isAdmin.equals(true)}">
+				<br>
+					<h6>
+						<a href="/PTITCoding/exercise/add-exercise.htm">Thêm bài tập mới</a>
+					</h6>
+				</c:if>
+				<table id="exercise" class="table table-hover"
 				style="margin-top: 20px" cellspacing="0" width="100%">
 				<thead>
 					<tr>
@@ -60,8 +65,11 @@
 						<th class="th-sm">Dạng bài</th>
 						<th class="th-sm">Số người giải</th>
 						<th class="th-sm"></th>
-						<th class="th-sm"></th>
-						<th class="th-sm"></th>
+						<c:if test="${sessionScope.isAdmin.equals(true)}">
+							<th class="th-sm"></th>
+						    <th class="th-sm"></th>
+						</c:if>
+						
 					</tr>
 				</thead>
 				<tbody id="myTable">
@@ -70,13 +78,14 @@
 						<td>${u.exerciseID}</td>
 						<td><a href="/PTITCoding/exercise/view/${u.exerciseID}.htm">${u.name}</a></td>
 						<td>${u.type}</td>
-						<td>64</td>
+						<td>${u.solves}</td>
 						<td>✔️</td>
-						<td><a href="/PTITCoding/exercise/update/${u.exerciseID}.htm""> Sửa </a></td>
-						<td><a href="/PTITCoding/exercise/delete/${u.exerciseID}.htm" data-toggle="modal" data-target="#myModal" onClick='GetCellValues()' "> Xoá </a></td>
+						<c:if test="${sessionScope.isAdmin.equals(true)}">
+							<td><a href="/PTITCoding/exercise/update/${u.exerciseID}.htm""> Sửa </a></td>
+						    <td><a href="/PTITCoding/exercise/delete/${u.exerciseID}.htm" onclick="return confirm('Bạn chắc chắn muốn xoá bài tập?')"> Xoá </a></td>
+						</c:if>
 					</tr>
 				</c:forEach>
-					
 				</tbody>
 			</table>
 
@@ -131,16 +140,6 @@ $(document).ready(function(){
     });
   });
 });
-
-function GetCellValues() {
-    var table = document.getElementById('mytable');
-    for (var r = 0, n = table.rows.length; r < n; r++) {
-        for (var c = 0, m = table.rows[r].cells.length; c < m; c++) {
-            alert(table.rows[r].cells[c].innerHTML);
-        }
-    }
-}
-	
 	</script>
 	</div>
 </body>

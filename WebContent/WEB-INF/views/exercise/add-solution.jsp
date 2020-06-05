@@ -30,19 +30,7 @@
 				<ul class="navbar-nav">
 					<li class="nav-item">
 					<li class="nav-item"><a class="nav-link"
-						href="/PTITCoding/submit/${exercise.exerciseID}.htm">Nộp bài</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="#">Bài bạn nộp</a></li>
-					</li>
-					<li class="nav-item"><a class="nav-link"
-						href="#">Bảng chấm bài</a></li>
-					</li>
-					<li class="nav-item"><a class="nav-link"
-						href="#">Test case</a></li>
-					</li>
-					<li class="nav-item"><a class="nav-link"
-						href="#">Bài giải</a></li>
-					</li>
+						href="/PTITCoding/exercise/view/${exercise.exerciseID}.htm">Bài tập</a></li>
 				</ul>
 			</div>
 			</nav>	

@@ -44,7 +44,7 @@ public class IndexController {
 	@RequestMapping("/rank")
 	public String query2(ModelMap model){
 		Session session =factory.getCurrentSession();
-		String hql="from Rank";
+		String hql="from Rank order by score DESC";
 		Query query= session.createQuery(hql);
 		List <Post> list=query.list();
 		//Query query=session.createQuery("update User set username=:username where id=:id");

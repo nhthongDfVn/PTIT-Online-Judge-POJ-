@@ -25,8 +25,30 @@ public class Testcase {
 	
 	@Column(name="output")
 	private String output;
-
 	
+	private String output1;
+	private int answer;
+	
+	public int getAnswer() {
+		return answer;
+	}
+
+
+	public void setAnswer(int answer) {
+		this.answer = answer;
+	}
+
+
+	public String getOutput1() {
+		return output1;
+	}
+
+
+	public void setOutput1(String output1) {
+		this.output1 = output1;
+	}
+
+
 	@ManyToOne
 	@JoinColumn(name="ExerciseID")
 	private Exercise exercise;

@@ -2,6 +2,7 @@ package ptitcode.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.BlockingDeque;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,7 +45,7 @@ public class PostController {
 	
 	public List<Post> getPage(int i){
 		Session session = factory.getCurrentSession();
-		String hql = "FROM Post";
+		String hql = "FROM Post ORDER BY postID DESC";
 		Query query = session.createQuery(hql);
 		query.setFirstResult(i);
 		query.setMaxResults(3);
@@ -89,23 +91,32 @@ public class PostController {
 	
 	// add new exercise POST // insert
 	@RequestMapping(value = "/post/add-post", method = RequestMethod.POST)
-	public String insertExercise(ModelMap model, @ModelAttribute("post") Post post) {
-		Session session = factory.openSession();
-		Transaction t = session.beginTransaction();
-		try {
-			post.setDate(new Date());
-			session.save(post);
-			t.commit();
-			model.addAttribute("message", "success");
-		} catch (Exception e) {
-			t.rollback();
-			model.addAttribute("message", "fail");
-		} finally {
-			session.close();
-			model.addAttribute("post", new Post());
+	public String insertExercise(ModelMap model, @ModelAttribute("post") Post post,BindingResult error) {
+		if (post.getTitle().trim().length()==0){
+			error.rejectValue("title","post","Vui lòng nhập tiêu đề bài viết");
+		}
+		else if (post.getBody().trim().length()==0) {
+			error.rejectValue("body","post","Vui lòng nhập nội dung bài viết bài viết");
+		}
+		if (!error.hasErrors()){
+			Session session = factory.openSession();
+			Transaction t = session.beginTransaction();
+			try {
+				post.setDate(new Date());
+				session.save(post);
+				t.commit();
+				model.addAttribute("message", "success");
+			} catch (Exception e) {
+				t.rollback();
+				model.addAttribute("message", "fail");
+			} finally {
+				session.close();
+				model.addAttribute("post", new Post());
+			}
 		}
 		return "post/new_post";
 	}
+	
 	
 	
 	
@@ -128,26 +139,34 @@ public class PostController {
 			return "post/edit_post";	
 		}
 		// edit post: POST request
-		
-		@RequestMapping(value = "/post/update/{id}", method = RequestMethod.POST)
-		public String update(ModelMap model, @ModelAttribute("post") Post post, @PathVariable("id") int id) {	
+
+	@RequestMapping(value = "/post/update/{id}", method = RequestMethod.POST)
+	public String update(ModelMap model, @ModelAttribute("post") Post post, @PathVariable("id") int id,
+			BindingResult error) {
+		if (post.getTitle().trim().length() == 0) {
+			error.rejectValue("title", "post", "Vui lòng nhập tiêu đề bài viết");
+		} else if (post.getBody().trim().length() == 0) {
+			error.rejectValue("body", "post", "Vui lòng nhập nội dung bài viết bài viết");
+		}
+		if (!error.hasErrors()) {
 			Session session = factory.openSession();
 			Transaction t = session.beginTransaction();
-	
+
 			try {
 				session.update(post);
 				t.commit();
-				model.addAttribute("message","success");
+				model.addAttribute("message", "success");
 			} catch (Exception e) {
 				t.rollback();
-				model.addAttribute("message","fail");	
+				model.addAttribute("message", "fail");
 				System.out.println(e.getMessage());
 			} finally {
-				Post post1 = (Post) session.get(Post.class,id);
+				Post post1 = (Post) session.get(Post.class, id);
 				model.addAttribute("post", post1);
-				session.close();			
+				session.close();
 			}
-			return "post/edit_post";
 		}
-	
+		return "post/edit_post";
+	}
+
 }

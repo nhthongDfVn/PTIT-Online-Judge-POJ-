@@ -30,6 +30,9 @@
 	<div class="container-fluid">
 		<div class="row" style="margin-top: 30px">
 			<div class="col-xl-8" style="margin-left: 30px">
+				<c:if test="${sessionScope.isAdmin.equals(true)}">
+					<h6><a href="/PTITCoding/post/add-post.htm">Thêm bài viết mới</a></h6>
+				</c:if>
 
 				<c:forEach var="u" items="${post}">
 					<div class='cont'>
@@ -38,6 +41,10 @@
 						</h2>
 						<p>${u.body}</p>
 						<p>${u.date}</p>
+						<c:if test="${sessionScope.isAdmin.equals(true)}">
+							<a href="/PTITCoding/post/update/${u.postID}.htm">Chỉnh sửa</a>
+							<a href="/PTITCoding/post/delete/${u.postID}.htm"  onclick="return confirm('Bạn chắc chắn muốn xoá bài viết?')">Xoá</a>
+						</c:if>
 					</div>
 
 				</c:forEach>
@@ -63,5 +70,8 @@
 		</div>
 	</div>
 <%@include file="footer.html"%>
+
+
+
 </body>
 </html>

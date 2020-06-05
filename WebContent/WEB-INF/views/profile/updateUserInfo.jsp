@@ -14,6 +14,7 @@
 </head>
 <body>
 <%@include  file="../header.html" %>
+<div class="container-fluid">
 <div class="row" style="margin-top: 30px">
 		<div class="col-sm-8">
 			<div style="margin-left: 50px">
@@ -59,15 +60,12 @@
 
 				</form:form>
 			</div>
-
-
-
 		</div>
 		<div class="col-sm-3">
 			<%@include file="../right_page.html"%>
 		</div>
 </div>
 
-
+</div>
 </body>
 </html>

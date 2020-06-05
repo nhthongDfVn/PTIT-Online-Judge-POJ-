@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<base href="${pageContext.servletContext.contextPath}/">
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,11 +15,10 @@
 </head>
 <body>
 <%@include  file="header.html" %>
-
-
+<div class="container-fluid">
 <div class="row" style="margin-top:30px">
   <div class="col-sm-8">
-  <h3>Bảng xếp hạng hiện tại</h3>
+  <h3 style="text-align: center">Bảng xếp hạng hiện tại</h3> <br>
   <table class="table table-dark table-hover">
 	<tr>
 	  <th>Hạng</th>
@@ -27,8 +27,8 @@
 	</tr>
 	<c:forEach var ="u" items="${rank}">
 	<tr>
-		<td> 1 </td>
-		<td> ${u.username} </td>
+		<td> </td>
+		<td><img src="/PTITCoding/images/profile/${u.username}.png" width="35" height="35">  ${u.username} </td>
 		<td> ${u.score} </td>
 	</tr>
 	</c:forEach>
@@ -40,6 +40,7 @@
   <div class="col-sm-3">
 	<%@include  file="right_page.html" %>
   </div>
+</div>
 </div>
 </body>
 </html>

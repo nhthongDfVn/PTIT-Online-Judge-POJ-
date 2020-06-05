@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import ptitcode.entity.Exercise;
+import ptitcode.entity.Post;
 import ptitcode.entity.Submit;
 import ptitcode.entity.Testcase;
 import ptitcode.entity.User;
@@ -48,6 +51,8 @@ public class SubmitSolutionController {
 	
 	@Autowired
 	ServletContext context;
+	
+	
 	
 	
 	@RequestMapping(value = "/submit/{id}",method = RequestMethod.GET)
@@ -133,7 +138,7 @@ public class SubmitSolutionController {
 			submit.setTimerun(Integer.parseInt(time));
 		}
 		 submit.setAnswer(answer);
-		// update to database
+		// update to database: submit
 		Session session2 = factory.openSession();
 		Transaction t2 = session2.beginTransaction();
 		try {
@@ -144,7 +149,52 @@ public class SubmitSolutionController {
 		} finally {
 			session2.close();
 		}
+		
+		
+		// update to database: exrciseID
+		Session session3 = factory.openSession();
+		Transaction t3 = session3.beginTransaction();
+		Exercise exercise = (Exercise) session3.get(Exercise.class,id);
+		if (isSolve(exercise.getExerciseID(), username)==false){
+			exercise.setSolves(exercise.getSolves()+1);
+			try {
+				session3.update(exercise);
+				t3.commit();
+			} catch (Exception e) {
+				t3.rollback();
+			} finally {
+				session3.close();
+			}
+		}
 		return "thankforsubmit";	
+	}
+	
+	@RequestMapping(value = "/submit/view/{id}",method = RequestMethod.GET)
+	public String viewSubmit(ModelMap model, @PathVariable("id") int id) {
+		
+		// get data from database
+		Session session = factory.getCurrentSession();
+		Submit submit = (Submit) session.get(Submit.class,id);
+		model.addAttribute("submit", submit);
+
+		
+		// load data from file
+		List <Testcase> list= new ArrayList<>();
+		File directory=new File(context.getRealPath("/submited/"+String.valueOf(id)+"/"));
+		int fileCount=directory.list().length-2;
+	    for (int i=1;i<=fileCount;i++){
+	    	Testcase test= new Testcase();
+	    	test.setInput(readTestcaseInput(submit.getExerciseID(),i));
+	    	test.setOutput(readTestcaseOutput(submit.getExerciseID(),i));
+	    	test.setOutput1(readSubmitOutput(id,i));
+	    	test.setAnswer(submit.getAnswer());
+	    	list.add(test);
+	    }
+		model.addAttribute("inout",list);
+		
+		
+		
+		return "exercise/view-submit";
 	}
 	
 	
@@ -344,6 +394,25 @@ public class SubmitSolutionController {
 			return timerun;
 		} 
 	 
+	 public String readTestcaseInput(int id, int num){
+			StringBuffer sb = new StringBuffer(); // constructs a string buffer
+			// with no characters
+			try {
+				File file = new File(context.getRealPath("/testcase/"+String.valueOf(id)+"/"+String.valueOf(num)+".inp")); 
+				FileReader fr = new FileReader(file); // reads the file
+				BufferedReader br = new BufferedReader(fr); 
+				String line;
+				while ((line = br.readLine()) != null) {
+					sb.append(line); // appends line to string buffer
+					sb.append("\n"); // line feed
+				}
+				fr.close(); // closes the stream and release the resources
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return sb.toString();
+		}
+	 
 	 public String readTestcaseOutput(int id, int num){
 			StringBuffer sb = new StringBuffer(); // constructs a string buffer
 			// with no characters
@@ -363,6 +432,8 @@ public class SubmitSolutionController {
 			return sb.toString();
 		}
 	 
+	
+	 
 	 public String readSubmitOutput(int id, int num){
 			StringBuffer sb = new StringBuffer(); // constructs a string buffer
 			// with no characters
@@ -380,6 +451,20 @@ public class SubmitSolutionController {
 				e.printStackTrace();
 			}
 			return sb.toString();
+		}
+	 
+	 public boolean isSolve(int exerciseID, String username){
+		    int  number=0;
+			boolean result=true;
+		    Session session = factory.getCurrentSession();
+			String hql = "select  COUNT(*) from Submit where username=:username and exerciseID=:exerciseID and answer=0";
+			Query query = session.createQuery(hql);
+			query.setParameter("exerciseID",exerciseID);
+			query.setParameter("username",username);
+			Long count =(long)query.uniqueResult();
+			number=(int) (count/1);
+			if (number<=0) result=false;
+			return result;
 		}
 	 
 

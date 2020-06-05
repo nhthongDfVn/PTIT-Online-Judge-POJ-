@@ -56,31 +56,45 @@
 							<form:input type="hidden" placeholder="ID"  path="exerciseID"/>
 						<tr>
 							<td class="w-25">Tên bài tập</td>
-							<td class="w-50"><form:input placeholder="Tính tổng"  path="name"/></td>
+							<td class="w-50"><form:input required="required" placeholder="Tính tổng"  path="name"/>
+							<br> <form:errors style="color:red" path="name"/>
+							</td>
 						</tr>
 						<tr>
 							<td>Thời gian</td>
-							<td><form:input placeholder="1.0"  path="time"/> giây</td>
+							<td><form:input required="required" placeholder="1.0"  path="time"/> giây
+							<br> <form:errors style="color:red" path="time"/>
+							</td>
 						</tr>
 						<tr>
 							<td>Dạng bài</td>
-							<td><form:input placeholder="Quy hoạch động"  path="type"/></td>
+							<td><form:input required="required" placeholder="Quy hoạch động"  path="type"/>
+							<br> <form:errors style="color:red" path="type"/>
+							</td>
 						</tr>
 						<tr>
 							<td>Giới hạn bộ nhớ</td>
-							<td><form:input placeholder="1024"  path="memlimit"/> MB</td>
+							<td><form:input required="required" placeholder="1024"  path="memlimit"/> MB
+							<br> <form:errors style="color:red" path="memlimit"/>
+							</td>
 						</tr>
 						<tr>
 							<td>Mô tả bài tập</td>
-							<td><form:textarea class="form-control" placeholder="Mô tả" rows="6"  path="detail"/></td>
+							<td><form:textarea class="form-control" placeholder="Mô tả" rows="6"  path="detail"/>
+							<br> <form:errors style="color:red" path="detail"/>
+							</td>
 						</tr>
 						<tr>
 							<td>Input mẫu</td>	
-							<td><form:textarea class="form-control" placeholder="1 3 4" rows="3"  path="input"/></td>
+							<td><form:textarea class="form-control" placeholder="1 3 4" rows="3"  path="input"/>
+							<br> <form:errors style="color:red" path="input"/>
+							</td>
 						</tr>
 						<tr>
 							<td>Output mẫu</td>
-							<td><form:textarea class="form-control" placeholder="8" rows="3"  path="output"/></td>
+							<td><form:textarea class="form-control" placeholder="8" rows="3"  path="output"/>
+							<br> <form:errors style="color:red" path="output"/>
+							</td>
 							
 						</tr>
 						<tr>
