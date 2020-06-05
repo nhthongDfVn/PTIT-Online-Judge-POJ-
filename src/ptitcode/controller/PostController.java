@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.BlockingDeque;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -167,6 +168,22 @@ public class PostController {
 			}
 		}
 		return "post/edit_post";
+	}
+	
+	@RequestMapping(value = "/post/delete/{id}", method = RequestMethod.GET)
+	public String delete(ModelMap model,@PathVariable("id") int id) {
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
+		Post post = (Post) session.get(Post.class, id);
+			try {
+				session.delete(post);
+				t.commit();
+			} catch (Exception e) {
+				t.rollback();
+			} finally {
+				session.close();
+			}
+		return "200";
 	}
 
 }

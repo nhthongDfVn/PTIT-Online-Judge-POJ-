@@ -201,14 +201,7 @@ public class SubmitSolutionController {
 	
 	@RequestMapping("comile")
 	public void show(){
-		String s1= readTestcaseOutput(20,1);
-		String s2= readSubmitOutput(5, 1);
-		if (s1.equals(s2)){
-			System.out.println("Correct");
-		}
-		else{
-			System.out.println("Wrong Answer");
-		}
+		testPing();
 	}
 	
 
@@ -276,8 +269,8 @@ public class SubmitSolutionController {
 	
 	
 	public void testPing(){
-		int i=20;
-		String s="cd ../../Workspace/Eclipse/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/PTITCoding/solution&g++ "+ String.valueOf(i)+".cpp -o "+String.valueOf(i)+".exe";
+		String username="kuku";
+		String s="cd ../../Workspace/Eclipse/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/PTITCoding/images/profile& COPY default.png "+username+".png";
 		
 		String commandArray[] = {"cmd", "/c", s}; 
 		try {
@@ -285,10 +278,6 @@ public class SubmitSolutionController {
 		 
 		    BufferedReader reader = new BufferedReader(
 		            new InputStreamReader(process.getInputStream()));
-		    String line;
-		    while ((line = reader.readLine()) != null) {
-		        System.out.println(line);
-		    }
 		 
 		    reader.close();
 		 
@@ -466,6 +455,18 @@ public class SubmitSolutionController {
 			if (number<=0) result=false;
 			return result;
 		}
+	 
+	 public int updateRank(String username){
+		    int re=0;
+		    Session session = factory.getCurrentSession();
+			String hql = "select count (distinct exerciseID) from Submit where username=:username and answer=0";
+			Query query = session.createQuery(hql);
+			query.setString("username",username);
+			Long count =(long)query.uniqueResult();
+			re=(int) (count/1);
+			return re;
+	 }
+	 
 	 
 
 	

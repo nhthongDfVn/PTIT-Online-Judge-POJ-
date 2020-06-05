@@ -350,6 +350,25 @@ public class ExerciseController {
 		return "exercise/edit";
 	}
 	
+	@RequestMapping(value = "/exercise/delete/{id}", method = RequestMethod.GET)
+	public String delete(ModelMap model, @PathVariable("id") int id) {	
+
+			Session session1 = factory.openSession();
+			Transaction t1 = session1.beginTransaction();
+			Exercise exercise1 = (Exercise) session1.get(Exercise.class, id);
+			try {
+				session1.delete(exercise1);
+				t1.commit();
+			} catch (Exception e) {
+				t1.rollback();
+			} finally {
+				session1.close();
+			}
+		return "200";
+	}
+	
+	
+	
 	public boolean saveSolutionFile(MultipartFile photo, int exerciseID){
 		boolean result=true;
 		try {
@@ -550,5 +569,7 @@ public class ExerciseController {
 	        }
 		 
 	 }
+	 
+	 
 	 
 }

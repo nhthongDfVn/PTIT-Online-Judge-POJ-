@@ -17,11 +17,11 @@
 <body>
 
 <%@include  file="../header.html" %>
-
-<div class="row" style="margin-top: 0px">
+<div class="container-fluid">
+<div class="row" style="margin-top: 0px; margin-left: 20px">
 		<div class="col-sm-8">
 		<div style="margin-top: 30px" > 
-			<h6>Chi tiết bài nộp</h6>
+			<h4 style="text-align: center">Chi tiết bài nộp</h4>
 			<table class="table table-dark table-hover">
 				<tr>
 					<th>ID</th>
@@ -80,6 +80,7 @@
 			<%@include file="../right_page.html"%>
 		</div>
 		
+</div>
 </div>
 </body>
 </html>

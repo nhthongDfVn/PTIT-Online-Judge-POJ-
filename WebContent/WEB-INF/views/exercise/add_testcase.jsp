@@ -22,6 +22,7 @@
 
 <body>
 <%@include  file="../header.html" %>
+<div class="container-fluid">
 <div class="row" style="margin-top: 10px">
 		<div class="col-sm-8" style="margin-left: 30px ">
 			<nav class="navbar navbar-expand-sm">
@@ -73,6 +74,7 @@
 		<div class="col-sm-3">
 			<%@include file="../right_page.html"%>
 		</div>
+</div>
 </div>
 </body>
 </html>

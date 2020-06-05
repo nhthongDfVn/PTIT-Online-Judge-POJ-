@@ -11,23 +11,13 @@ import javax.persistence.Table;
 @Table(name="`rank`")
 public class Rank {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="RankID")
-	private int rankID;
-	
-	
 	@Column(name="username")
 	private String username;
+	
 	@Column(name="score")
 	private int score;
 	
 	
-	public int getRankID() {
-		return rankID;
-	}
-	public void setRankID(int rankID) {
-		this.rankID = rankID;
-	}
 	public Rank() {
 		super();
 		// TODO Auto-generated constructor stub

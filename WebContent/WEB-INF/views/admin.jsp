@@ -16,44 +16,24 @@
 
 <div class="row" style="margin-top: 30px; margin-left: 30px;">
 		<div class="col-sm-8">
-			<!-- Nav tabs -->
-			<ul class="nav nav-tabs">
-				<li class="nav-item"><a class="nav-link active"
-					data-toggle="tab" href="#home">Chung</a></li>
-				<li class="nav-item"><a class="nav-link" data-toggle="tab"
-					href="#menu">Bài viết8</a></li>
-				<li class="nav-item"><a class="nav-link" data-toggle="tab"
-					href="#menu">Bài tập</a></li>
-				<li class="nav-item"><a class="nav-link" data-toggle="tab"
-					href="#menu">Người dùng</a></li>
-				<li class="nav-item"><a class="nav-link" data-toggle="tab"
-					href="#menu">Cuộc thi</a></li>	
-			</ul>
+			<h3 style="text-align: center"> Danh sách coder hiện tại </h3>
+		 <table class="table table table-hover">
+	<tr>
+	  <th>Username</th>
+	  <th>Fullname</th>
+	  <th>Email</th>
+	</tr>
+		<c:forEach var="u" items="${user}">
+			<tr>
+				<td>${u.username}</td>
+				<td>${u.fullname}</td>
+				<td>${u.email}</td>
+			</tr>
+		</c:forEach>
 
-			<!-- Tab panes -->
-			<div class="tab-content">
-				<div id="home" class="container tab-pane active">
-					hello 
-				</div>
-				<div id="menu1" class="container tab-pane fade">
-					<br>
-					<h3>Menu 1</h3>
-					<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco
-						laboris nisi ut aliquip ex ea commodo consequat.</p>
-				</div>
-				<div id="menu2" class="container tab-pane fade">
-					<br>
-					<h3>Menu 2</h3>
-					<p>Sed ut perspiciatis unde omnis iste natus error sit
-						voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-				</div>
-			</div>
-			<a href="#">Xem tất cả</a>
-
-
-
-		</div>
-	
+	</table>
+		
+	</div>
 		<div class="col-sm-3">
 			<%@include file="right_page.html"%>
 		</div>

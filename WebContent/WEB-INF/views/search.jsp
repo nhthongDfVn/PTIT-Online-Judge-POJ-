@@ -6,7 +6,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Trang chủ</title>
+<title>Kết quả tìm kiếm</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -29,39 +29,33 @@
 	<div class="container-fluid">
 		<div class="row" style="margin-top: 30px">
 			<div class="col-xl-8" style="margin-left: 30px">
-				<c:if test="${sessionScope.isAdmin.equals(true)}">
-					<h6><a href="/PTITCoding/post/add-post.htm">Thêm bài viết mới</a></h6>
-				</c:if>
-
-				<c:forEach var="u" items="${post}">
-					<div class='cont'>
-						<h3>
-							<a href="/PTITCoding/post/view/${u.postID}.htm">${u.title}</a>
-						</h3>
-						<p>${u.body}</p>
-						<p>${u.date}</p>
-						<c:if test="${sessionScope.isAdmin.equals(true)}">
-							<a href="/PTITCoding/post/update/${u.postID}.htm">Chỉnh sửa</a>
-							<a href="/PTITCoding/post/delete/${u.postID}.htm"  onclick="return confirm('Bạn chắc chắn muốn xoá bài viết?')">Xoá</a>
-						</c:if>
-					</div>
-
-				</c:forEach>
-				<br>
-				<ul class="pagination justify-content-center">
-
-					<c:forEach begin="1" end="${allpage}" var="i">
-						<c:if test="${i==current}">
-							<li class="page-item active"><a class="page-link"
-								href="/PTITCoding/index.htm?page=${i}">${i}</a></li>
-						</c:if>
-						<c:if test="${i!=current}">
-							<li class="page-item"><a class="page-link"
-								href="/PTITCoding/index.htm?page=${i}">${i}</a></li>
-						</c:if>
+				<h5>Người dùng</h5>
+				<table class="table table table-hover">
+					<c:forEach var="u" items="${user}">
+						<tr>
+							<td>${u.username}</td>
+						</tr>
 					</c:forEach>
+				</table>
+				<h5>Bài viết</h5>
+				<table class="table table table-hover">
+					<c:forEach var="u" items="${Post}">
+						<tr>
+							<td>${u.title}</td>
+						</tr>
+					</c:forEach>
+				</table>
+				<h5>Bài tập</h5>
+				<table class="table table table-hover">
+					<c:forEach var="u" items="${Exercise}">
+						<tr>
+							<td>${u.name}</td>
+						</tr>
+					</c:forEach>
+				</table>
 
-				</ul>
+
+
 			</div>
 			<div class="col-xl-3">
 				<%@include file="right_page.html"%>

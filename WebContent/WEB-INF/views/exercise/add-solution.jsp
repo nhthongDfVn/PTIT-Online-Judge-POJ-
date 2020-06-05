@@ -20,7 +20,7 @@
 <body>
 
 <%@include  file="../header.html" %>
-
+<div class="container-fluid">
 <div class="row" style="margin-top: 0px">
 		<div class="col-sm-8">
 
@@ -69,6 +69,7 @@
 			<%@include file="../right_page.html"%>
 		</div>
 		
+</div>
 </div>
 </body>
 </html>

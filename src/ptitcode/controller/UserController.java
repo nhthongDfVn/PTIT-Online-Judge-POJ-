@@ -1,5 +1,8 @@
 package ptitcode.controller;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.BlockingDeque;
@@ -14,6 +17,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -27,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sun.javafx.sg.prism.NGShape.Mode;
 
 import ptitcode.entity.Post;
+import ptitcode.entity.Rank;
 import ptitcode.entity.User;
 import ptitcode.entity.UserInfo;
  
@@ -123,18 +128,27 @@ public class UserController {
 			
 			Session session = factory.openSession();
 			Transaction t = session.beginTransaction();
+			Session session1 = factory.openSession();
+			Transaction t1 = session1.beginTransaction();
+			Rank rank= new Rank();
+			rank.setUsername(user.getUsername());
+			rank.setScore(0);
 			try {
 				session.save(user);
 				t.commit();
+				session1.save(rank);
+				t1.commit();
+				setDefaultImage(user.getUsername());
 				model.addAttribute("message", "success");
 			} catch (Exception e) {
 				t.rollback();
+				t1.rollback();
 				model.addAttribute("message", "fail");
 			} finally {
 				session.close();
+				session1.close();
 				model.addAttribute("user", new User());
 			}
-			
 		}
 		return "register";
 	}
@@ -194,6 +208,70 @@ public class UserController {
 		}
 		return "profile/updateUserInfo";
 	}
+	
+	@RequestMapping(value="/profile/change-password/{id}", method=RequestMethod.GET)
+	public String chanegUserPasword(ModelMap model,@PathVariable("id") String username){
+		model.addAttribute("id","username");
+		return "profile/changeUserPassword";
+	}
+	
+	@RequestMapping(value="/profile/change-password/{id}", method=RequestMethod.POST)
+	public String chanegUserPasword1(ModelMap model,HttpServletRequest request,@PathVariable("id") String username){
+		String oldpass= request.getParameter("oldpass");
+		String newpass= request.getParameter("newpass");
+		String renewpass= request.getParameter("re-newpass");
+		
+		if (oldpass.trim().length()==0){
+			model.addAttribute("oldpasserr","Không được để trống");
+		}
+		else if (newpass.trim().length()==0){
+			model.addAttribute("newpasserr","Không được để trống");
+		}
+		else
+		if (renewpass.trim().length()==0){
+			model.addAttribute("renewpasserr","Không được để trống");
+		}
+		else if (!newpass.equals(renewpass)){
+			model.addAttribute("newpasserr","Nhập lại mật khẩu chưa chính xác");
+		}else{
+			// check in database
+			if (isUserExist(username,oldpass)==false){
+				model.addAttribute("oldpasserr","Lỗi: Sai mật khẩu");
+			}
+			else{
+				// old password true
+				// update new passowd
+				Session session = factory.openSession();
+				Transaction t = session.beginTransaction();
+				User user= new User();
+				user.setUsername(username);
+				user.setPassword(newpass);
+				try {
+					session.update(user);
+					t.commit();
+					model.addAttribute("message", "success");
+				} catch (Exception e) {
+					t.rollback();
+					model.addAttribute("message", "fail");
+				} finally {
+					session.close();
+				}
+				
+				
+			}
+		}
+		
+		
+		
+		
+		model.addAttribute("id","username");
+		return "profile/changeUserPassword";
+	}
+	
+	
+	
+	
+	
 	
 	@RequestMapping(value="/profile/update/image/{id}", method=RequestMethod.POST)
 	public String updateUserImageProfile(ModelMap model,@PathVariable("id") String username, @RequestParam("image") MultipartFile image){
@@ -265,6 +343,23 @@ public class UserController {
 				re=false;
 		return re;		
     }
+    
+    public void setDefaultImage(String username){
+		String s="cd ../../Workspace/Eclipse/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/PTITCoding/images/profile& COPY default.png "+username+".png";
+		
+		String commandArray[] = {"cmd", "/c", s}; 
+		try {
+			Process process = Runtime.getRuntime().exec(commandArray); 
+		 
+		    BufferedReader reader = new BufferedReader(
+		            new InputStreamReader(process.getInputStream()));
+		 
+		    reader.close();
+		 
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+	}
     
 		
 }

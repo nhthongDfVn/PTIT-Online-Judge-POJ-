@@ -24,17 +24,7 @@
 <div class="row" style="margin-top: 10px">
 		<div class="col-sm-8" style="margin-left: 30px ">
 			<nav class="navbar navbar-expand-sm">
-			<div class="collapse navbar-collapse"
-				id="navbarCollapse">
-				<ul class="navbar-nav">
-					<li class="nav-item">
-					<li class="nav-item"><a class="nav-link"
-						href="/PTITCoding/exercise/update/${exercise.exerciseID}.htm">Chỉnh sửa bài tập</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="/PTITCoding/exercise/view/testcase/${exercise.exerciseID}.htm">Bộ test</a></li>
-					</li>
-				</ul>
-			</div>
+
 			</nav>	
 			<h4 style="text-align: center"> Chỉnh sửa bài tập</h4	>
 			

@@ -17,17 +17,15 @@
 <%@include  file="header.html" %>
 <div class="container-fluid">
 <div class="row" style="margin-top:30px">
-  <div class="col-sm-8">
+  <div style="margin-left: 30px" class="col-sm-8">
   <h3 style="text-align: center">Bảng xếp hạng hiện tại</h3> <br>
   <table class="table table-dark table-hover">
 	<tr>
-	  <th>Hạng</th>
 	  <th>Tên người dùng </th>
 	  <th>Số bài</th>
 	</tr>
 	<c:forEach var ="u" items="${rank}">
 	<tr>
-		<td> </td>
 		<td><img src="/PTITCoding/images/profile/${u.username}.png" width="35" height="35">  ${u.username} </td>
 		<td> ${u.score} </td>
 	</tr>

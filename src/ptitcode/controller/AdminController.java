@@ -16,22 +16,18 @@ import ptitcode.entity.Post;
 
 @Transactional
 @Controller
-@RequestMapping("/admin/")
 public class AdminController {
 	@Autowired
 	SessionFactory factory;
 	
 	
-	
-	
-	@RequestMapping("all-post")
-	public String showAllPost(ModelMap model){
+	@RequestMapping("admin")
+	public String showInfoasda(ModelMap model){
 		Session session =factory.getCurrentSession();
-		String hql="from Post";
+		String hql="from UserInfo";
 		Query query= session.createQuery(hql);
 		List <Post> list=query.list();
-		model.addAttribute("post",list);
-		return "admin/view_all_post";
+		model.addAttribute("user",list);
+		return "admin";
 	}
-
 }
