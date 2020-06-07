@@ -110,7 +110,14 @@ public class ExerciseController {
 	
 	
 	@RequestMapping("/exercise/view/{id}")
-	public String views(ModelMap model, @PathVariable("id") int id) {
+	public String views(ModelMap model, @PathVariable("id") int id, HttpSession session1) {
+		if (session1!=null){
+			String username= (String) session1.getAttribute("username");
+			if (isSolve(id, username)==true){
+				model.addAttribute("usersolve","Bạn đã giải bài này");
+			}
+		}
+		
 		Session session = factory.getCurrentSession();
 		Exercise exercise = (Exercise) session.get(Exercise.class,id);
 		model.addAttribute("exercise", exercise);
@@ -566,10 +573,21 @@ public class ExerciseController {
 	            }
 	        } catch (Exception e) {
 	            e.printStackTrace();
-	        }
-		 
+	        } 
 	 }
 	 
-	 
-	 
+	 public boolean isSolve(int exerciseID, String username){
+		    int  number=0;
+			boolean result=true;
+		    Session session = factory.getCurrentSession();
+			String hql = "select  COUNT(*) from Submit where username=:username and exerciseID=:exerciseID and answer=0";
+			Query query = session.createQuery(hql);
+			query.setParameter("exerciseID",exerciseID);
+			query.setParameter("username",username);
+			Long count =(long)query.uniqueResult();
+			number=(int) (count/1);
+			if (number<=0) result=false;
+			return result;
+		}
+ 
 }

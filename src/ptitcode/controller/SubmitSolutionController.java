@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ptitcode.entity.Exercise;
 import ptitcode.entity.Post;
+import ptitcode.entity.Rank;
 import ptitcode.entity.Submit;
 import ptitcode.entity.Testcase;
 import ptitcode.entity.User;
@@ -86,6 +87,7 @@ public class SubmitSolutionController {
 		submit.setExerciseID(id);
 		submit.setSubmitID(submitID);
 		submit.setTimesubmit(timeStamp);
+		submit.setAnswer(-1);
 		
 		// write to sql database
 		Session session = factory.openSession();
@@ -138,6 +140,48 @@ public class SubmitSolutionController {
 			submit.setTimerun(Integer.parseInt(time));
 		}
 		 submit.setAnswer(answer);
+		 
+		 
+		// update to database: exrciseID
+		 if (answer==0){
+			 
+			    Session session3 = factory.openSession();
+				Transaction t3 = session3.beginTransaction();
+				Exercise exercise = (Exercise) session3.get(Exercise.class,id);
+				
+				System.out.println(isSolve(exercise.getExerciseID(), username));
+				if (isSolve(exercise.getExerciseID(), username)==false){
+					exercise.setSolves(exercise.getSolves()+1);
+					try {
+						session3.update(exercise);
+						t3.commit();
+					} catch (Exception e) {
+						t3.rollback();
+					} finally {
+						session3.close();
+					}
+				}
+				
+				
+				int number=updateRank(username);
+				Session session4 = factory.openSession();
+				Transaction t4 = session4.beginTransaction();
+				Rank rank = (Rank) session4.get(Rank.class,username);
+				rank.setScore(number);
+				try {
+					session4.update(rank);
+					t4.commit();
+				} catch (Exception e) {
+					t4.rollback();
+				} finally {
+					session4.close();
+				}
+		 }
+		 
+			
+		 
+		 
+		 
 		// update to database: submit
 		Session session2 = factory.openSession();
 		Transaction t2 = session2.beginTransaction();
@@ -151,21 +195,7 @@ public class SubmitSolutionController {
 		}
 		
 		
-		// update to database: exrciseID
-		Session session3 = factory.openSession();
-		Transaction t3 = session3.beginTransaction();
-		Exercise exercise = (Exercise) session3.get(Exercise.class,id);
-		if (isSolve(exercise.getExerciseID(), username)==false){
-			exercise.setSolves(exercise.getSolves()+1);
-			try {
-				session3.update(exercise);
-				t3.commit();
-			} catch (Exception e) {
-				t3.rollback();
-			} finally {
-				session3.close();
-			}
-		}
+		
 		return "thankforsubmit";	
 	}
 	

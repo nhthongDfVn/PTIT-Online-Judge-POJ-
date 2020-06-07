@@ -30,7 +30,7 @@
 <div class="container-fluid">
 <div class="row" style="margin-top: 30px">
 		<div class="col-sm-8" style="margin-left: 30px ">
-		<h1>200 OK </h1>
+		<h3>Tác vụ thành công</h3>
 			
 
 		</div>
@@ -38,7 +38,7 @@
 			<%@include file="right_page.html"%>
 		</div>
 </div>
-<%@include  file="footer.html" %>
 </div>
+<%@include file="footer.html"%>
 </body>
 </html>

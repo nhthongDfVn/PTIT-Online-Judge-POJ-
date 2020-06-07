@@ -13,7 +13,7 @@
 </head>
 <body>
 <%@include  file="header.html" %>
-
+<div class="container-fluid">
 <div class="row" style="margin-top: 30px; margin-left: 30px;">
 		<div class="col-sm-8">
 			<h3 style="text-align: center"> Danh sách coder hiện tại </h3>
@@ -38,5 +38,7 @@
 			<%@include file="right_page.html"%>
 		</div>
 </div>
+</div>
+<%@include file="footer.html"%>
 </body>
 </html>

@@ -30,7 +30,7 @@
 	<div class="container-fluid">
 		<div class="row" style="margin-top: 30px">
 			<div class="col-xl-8" style="margin-left: 30px">
-			<h1>Nộp bài thành công, xem kết quả tại <a href="/PTITCoding/#">Bảng chấm bài</a></h1>
+			<h3>Nộp bài thành công, xem kết quả tại Bảng chấm bài</h3>
 
 			</div>
 			<div class="col-xl-3">

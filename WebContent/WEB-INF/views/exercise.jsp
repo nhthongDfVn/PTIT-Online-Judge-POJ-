@@ -29,9 +29,6 @@
 					<li class="nav-item"><a class="nav-link"
 						href="/PTITCoding/exercise.htm?page=bt">Bài tập</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="/PTITCoding/exercise.htm?page=bbn">Bài bạn nộp</a></li>
-					</li>
-					<li class="nav-item"><a class="nav-link"
 						href="/PTITCoding/exercise.htm?page=bcb">Bảng chấm bài</a></li>
 					</li>
 				</ul>
@@ -79,7 +76,6 @@
 						<td><a href="/PTITCoding/exercise/view/${u.exerciseID}.htm">${u.name}</a></td>
 						<td>${u.type}</td>
 						<td>${u.solves}</td>
-						<td>✔️</td>
 						<c:if test="${sessionScope.isAdmin.equals(true)}">
 							<td><a href="/PTITCoding/exercise/update/${u.exerciseID}.htm""> Sửa </a></td>
 						    <td><a href="/PTITCoding/exercise/delete/${u.exerciseID}.htm" onclick="return confirm('Bạn chắc chắn muốn xoá bài tập?')"> Xoá </a></td>
@@ -142,5 +138,6 @@ $(document).ready(function(){
 });
 	</script>
 	</div>
+<%@include file="footer.html"%>
 </body>
 </html>

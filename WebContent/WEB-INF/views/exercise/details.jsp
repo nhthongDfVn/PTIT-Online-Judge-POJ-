@@ -35,8 +35,6 @@
 									<li class="nav-item"><a class="nav-link"
 										href="/PTITCoding/submit/${exercise.exerciseID}.htm">Nộp
 											bài</a></li>
-									<li class="nav-item"><a class="nav-link"
-										href="/PTITCoding/exercise.htm?page=bbn">Bài bạn nộp</a></li>
 								</c:otherwise>
 							</c:choose></li>
 						<li class="nav-item"><a class="nav-link"
@@ -55,7 +53,9 @@
 					</ul>
 				</div>
 				</nav>
-
+				  <div class="alert alert-primary">
+   						 <strong>${usersolve}</strong>
+ 				   </div>
 				<div style="text-align: center; line-height: 0.5">
 					<h3>${exercise.name}</h3>
 					<p>Dữ liệu vào: standard input</p>
@@ -86,5 +86,6 @@
 
 		</div>
 	</div>
+	<%@include file="../footer.html"%>
 </body>
 </html>

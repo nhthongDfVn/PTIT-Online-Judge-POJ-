@@ -104,5 +104,6 @@
 			<%@include file="../right_page.html"%>
 		</div>
 </div>
+<%@include file="../footer.html"%>
 </body>
 </html>

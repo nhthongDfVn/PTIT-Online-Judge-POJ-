@@ -68,5 +68,6 @@
  <script>
        CKEDITOR.replace( 'body' );
 </script>
+<%@include file="../footer.html"%>
 </body>
 </html>
