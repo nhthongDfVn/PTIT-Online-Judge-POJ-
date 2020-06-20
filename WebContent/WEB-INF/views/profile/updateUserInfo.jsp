@@ -17,7 +17,17 @@
 <div class="container-fluid">
 <div class="row" style="margin-top: 30px">
 		<div class="col-sm-8">
-			<div style="margin-left: 50px">
+		<div style="margin-left: 30px">
+					 <a href="/PTITCoding/profile/view/${userInfo.username}.htm">Thông tin cá nhân |</a> 
+					 <a href="/PTITCoding/profile/view/submit/${userInfo.username}.htm">Các bài bạn đã nộp |</a> 
+					 <b><a href="/PTITCoding/profile/update/${userInfo.username}.htm">Cập nhật thông tin |</a></b> 
+					 <a href="/PTITCoding/profile/change-password/${userInfo.username}.htm">Đổi mật khẩu |</a> 
+					 <a href="/PTITCoding/profile/update/image/${userInfo.username}.htm">Đổi hình ảnh</a>
+				</div>
+		
+		
+		
+			<div style="margin-left: 3px">
 				<c:if test="${message.equals('success')}">
 
 					<div class="alert alert-success">
@@ -29,15 +39,12 @@
 						<strong>Thất bại!</strong> Không thể lưu thông tin
 					</div>
 				</c:if>
-				<h3 style="text-align: center">Thông tin cá nhân</h3>
-				<form action="/PTITCoding/profile/update/image/${userInfo.username}.htm"
-				method="post" enctype="multipart/form-data">
-				<input type="file" name="image">
-				<button>Cập nhật</button>
-				
-				</form>
 				
 				
+				
+				
+				<img style="margin-left: 400px" src="/PTITCoding/images/profile/${userInfo.username}.png" width="100" height="100">
+		<div style="margin-left: 50px">
 				
 				<form:form action="/PTITCoding/profile/update/${userInfo.username}.htm"
 					modelAttribute="userInfo"  method="POST">
@@ -50,7 +57,7 @@
 					<h6>Trường</h6>
 					<form:input class="form-control" path="school"  />
 					<h6>Email</h6>
-					<form:input class="form-control" path="email"  />
+					<form:input class="form-control" path="email" type="email" />
 					<form:input class="form-control" path="avatar" type="hidden"  />
 					<br>
 					<div class="col text-center">
@@ -59,6 +66,7 @@
 					</div>
 
 				</form:form>
+			</div>
 			</div>
 		</div>
 		<div class="col-sm-3">

@@ -26,11 +26,56 @@
 <div class="row" style="margin-top: 10px">
 		<div class="col-sm-8" style="margin-left: 30px ">
 			<div style="margin-left: 30px" >
-			<h1 style="text-align: center">${post.title} </h1>
+			<h3 style="text-align: center">${post.title} </h3>
 			<p>${post.body} </p>
 			<p style="text-align: right;">${post.date} </p>	
 			</div>
-		</div>	
+		<h5 style="margin-left: 30px;color:blue ">Bình luận</h5>
+
+
+		<div style="margin-left: 30px" >
+		<c:forEach var="u" items="${old}">
+					<div class='cont'>
+						<b>${u.username}</b>
+						<p>${u.comment}</p>
+						<c:if test="${sessionScope.isAdmin.equals(true)}">
+							
+							<a href="#"  onclick="return confirm('Bạn chắc chắn muốn xoá bình luận?')">Xoá</a>
+						</c:if>
+					</div>
+
+				</c:forEach>
+
+
+					<c:choose>
+						<c:when test="${sessionScope.username==null}">
+					         (Đăng nhập để thêm bình luận)
+						</c:when>
+						<c:otherwise>
+							<form:form
+								action="/PTITCoding/post/add-comment/${post.postID}.htm"
+								modelAttribute="cmt" method="POST">
+
+								<form:textarea required="required" class="form-control"
+									placeholder="Nội dung bài viết" rows="3" path="comment" />
+								<br>
+								<div>
+									<i><button type="submit" class="btn btn-primary">Bình
+										luận</button></i>
+								</div>
+
+							</form:form>
+						</c:otherwise>
+					</c:choose>
+
+
+
+				</div>
+
+			</div>	
+		
+		
+		
 		<div class="col-sm-3">
 			<%@include file="../right_page.html"%>
 		</div>

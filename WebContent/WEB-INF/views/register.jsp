@@ -15,7 +15,7 @@
 </head>
 <body>
 <%@include  file="header.html" %>
-
+<div class="container-fluid">
 <div class="row" style="margin-top: 30px">
 		<div class="col-sm-8">
 			<div class="container">
@@ -61,5 +61,6 @@
 </div>
 	
 <%@include file="footer.html"%>
+</div>
 </body>
 </html>

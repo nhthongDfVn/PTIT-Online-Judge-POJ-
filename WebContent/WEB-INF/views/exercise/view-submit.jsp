@@ -54,6 +54,18 @@
 						<td>N/A</td>
 					</tr>
 			</table>
+			<div class="alert alert-secondary">
+				<h6>Bài nộp</h6>
+				<textarea disabled rows="10" cols="110">${Comp}</textarea>
+			</div>
+			
+			<div class="alert alert-danger">
+				<h6>Lỗi</h6>
+				<textarea disabled rows="3" cols="110">${ErrComp}</textarea>
+			</div>
+			
+			
+
 
 				<c:forEach var="s" items="${inout}">
 							<div class="alert alert-success">

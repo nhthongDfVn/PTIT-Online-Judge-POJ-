@@ -38,8 +38,10 @@
 						<h3>
 							<a href="/PTITCoding/post/view/${u.postID}.htm">${u.title}</a>
 						</h3>
+						<p>admin - ${u.date}</p>
 						<p>${u.body}</p>
-						<p>${u.date}</p>
+						<hr>
+						
 						<c:if test="${sessionScope.isAdmin.equals(true)}">
 							<a href="/PTITCoding/post/update/${u.postID}.htm">Chỉnh sửa</a>
 							<a href="/PTITCoding/post/delete/${u.postID}.htm"  onclick="return confirm('Bạn chắc chắn muốn xoá bài viết?')">Xoá</a>

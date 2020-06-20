@@ -17,7 +17,17 @@
 <div class="container-fluid">
 <div class="row" style="margin-top: 30px">
 		<div class="col-sm-8">
-		<img style="margin-left: 400px" src="/PTITCoding/images/profile/${sessionScope.username}.png" width="100" height="100">
+		
+		<div style="margin-left: 30px">
+					 <a href="/PTITCoding/profile/view/${userInfo.username}.htm">Thông tin cá nhân |</a> 
+					 <a href="/PTITCoding/profile/view/submit/${userInfo.username}.htm">Các bài bạn đã nộp |</a> 
+					 <a href="/PTITCoding/profile/update/${userInfo.username}.htm">Cập nhật thông tin |</a> 
+					 <b><a href="#">Đổi mật khẩu |</a> </b>
+					  <a href="/PTITCoding/profile/update/image/${userInfo.username}.htm">Đổi hình ảnh</a>
+				</div>
+		
+		
+		<img style="margin-left: 400px" src="/PTITCoding/images/profile/${userInfo.username}.png" width="100" height="100">
 		<div style="margin-left: 50px">
 
 					<c:if test="${message.equals('success')}">
@@ -31,7 +41,7 @@
 							<strong>Thất bại!</strong> Không thể lưu thông tin
 						</div>
 					</c:if>
-					<form action="/PTITCoding/profile/change-password/${sessionScope.username}.htm" method="POST" >
+					<form action="/PTITCoding/profile/change-password/${userInfo.username}.htm" method="POST" >
 					<h6>Mật khẩu cũ</h6>
 					<input class="form-control" name="oldpass" type="password" required />
 					<p style="color:red">${ollpasserr} </p>

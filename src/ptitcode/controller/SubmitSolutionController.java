@@ -74,6 +74,10 @@ public class SubmitSolutionController {
 		if (ExerciseIsExist(id)==false){
 			return "404";
 		} 
+		if (request.getParameter("code").equals("")){
+			return "404";
+		}
+		
 		int answer=0; 
 		String time="";
 		Submit submit= new Submit();
@@ -131,11 +135,14 @@ public class SubmitSolutionController {
 				time=RunCode();
 				String s1= readTestcaseOutput(id,i);
 				String s2= readSubmitOutput(submitID,i);
-				if (s1.equals(s2)){			
+				if (s1.equals(s2)){	
+	
 				}
 				else{
 					answer=i; break;
 				}
+				
+				
 		    }  
 			submit.setTimerun(Integer.parseInt(time));
 		}
@@ -162,20 +169,7 @@ public class SubmitSolutionController {
 					}
 				}
 				
-				
-				int number=updateRank(username);
-				Session session4 = factory.openSession();
-				Transaction t4 = session4.beginTransaction();
-				Rank rank = (Rank) session4.get(Rank.class,username);
-				rank.setScore(number);
-				try {
-					session4.update(rank);
-					t4.commit();
-				} catch (Exception e) {
-					t4.rollback();
-				} finally {
-					session4.close();
-				}
+			
 		 }
 		 
 			
@@ -195,6 +189,22 @@ public class SubmitSolutionController {
 		}
 		
 		
+		if (answer==0){
+			int number=updateRank(username);
+			Session session4 = factory.openSession();
+			Transaction t4 = session4.beginTransaction();
+			Rank rank = (Rank) session4.get(Rank.class,username);
+			rank.setScore(number);
+			try {
+				session4.update(rank);
+				t4.commit();
+			} catch (Exception e) {
+				t4.rollback();
+			} finally {
+				session4.close();
+			}
+		}
+		
 		
 		return "thankforsubmit";	
 	}
@@ -206,7 +216,15 @@ public class SubmitSolutionController {
 		Session session = factory.getCurrentSession();
 		Submit submit = (Submit) session.get(Submit.class,id);
 		model.addAttribute("submit", submit);
-
+		
+		// if file error 
+		if (submit.getAnswer()==-1){
+			model.addAttribute("ErrComp",readErr(id));
+		}
+		
+		// read file submited
+		model.addAttribute("Comp",readSubmited(id));
+		
 		
 		// load data from file
 		List <Testcase> list= new ArrayList<>();
@@ -364,8 +382,21 @@ public class SubmitSolutionController {
 			    String line;
 			    while ((line = reader.readLine()) != null) {
 			        System.out.println(line);
-			    }	    
-			    if (errinput.readLine() != null) result=false;
+			    }	 
+			    String line1="";
+		    	String errStr="";
+			    if ((line1 = errinput.readLine()) != null){
+			    	 errStr=errStr+line1;
+			    	 while ((line1 = errinput.readLine()) != null) {
+			    		// System.out.println(line1);
+			    		 errStr=errStr+line1;
+					    }	
+			    	writeErrToInputFile(String.valueOf(submitID),errStr);
+			    	result=false;
+			    }
+			    
+			   
+			    
 			    reader.close();
 			} catch (IOException e) {
 			    e.printStackTrace();
@@ -497,6 +528,56 @@ public class SubmitSolutionController {
 			return re;
 	 }
 	 
+	 
+	 public void writeErrToInputFile(String submitID, String error) 
+			 throws IOException {
+		    FileWriter fileWriter = new FileWriter(context.getRealPath("/submited/"+submitID+"/err.txt"));
+		    PrintWriter printWriter = new PrintWriter(fileWriter);
+		    printWriter.print(error);
+		    printWriter.close();
+	}	
+	 public String readErr(int id){
+			StringBuffer sb = new StringBuffer(); // constructs a string buffer
+			// with no characters
+			try {
+				File file = new File(context.getRealPath("/submited/"+String.valueOf(id)+"/err.txt")); 
+				FileReader fr = new FileReader(file); // reads the file
+				BufferedReader br = new BufferedReader(fr); 
+				String line;
+				while ((line = br.readLine()) != null) {
+					sb.append(line); // appends line to string buffer
+					sb.append("\n"); // line feed
+				}
+				fr.close(); // closes the stream and release the resources
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return sb.toString();
+		}
+	 
+	 
+	 public String readSubmited(int id){
+			StringBuffer sb = new StringBuffer(); // constructs a string buffer
+			// with no characters
+			
+			try {
+				File file = new File(context.getRealPath("/submited/"+id+"/submit.cpp")); // creates a new file instance
+				FileReader fr = new FileReader(file); // reads the file
+				BufferedReader br = new BufferedReader(fr); // creates a buffering
+															// character input
+															// stream
+				
+				String line;
+				while ((line = br.readLine()) != null) {
+					sb.append(line); // appends line to string buffer
+					sb.append("\n"); // line feed
+				}
+				fr.close(); // closes the stream and release the resources
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return sb.toString();
+		}
 	 
 
 	

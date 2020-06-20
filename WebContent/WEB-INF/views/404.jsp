@@ -26,12 +26,11 @@
 </style>
 
 <body>
-<div class="container-fluid">
 <%@include  file="header.html" %>
-
+<div class="container-fluid">
 <div class="row" style="margin-top: 30px">
 		<div class="col-sm-8" style="margin-left: 30px ">
-		<h1>404 Not Found </h1>
+		<h3>Không thể thực hiện nội dung này </h3>
 			
 
 		</div>

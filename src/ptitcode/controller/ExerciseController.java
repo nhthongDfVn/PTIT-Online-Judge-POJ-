@@ -111,6 +111,9 @@ public class ExerciseController {
 	
 	@RequestMapping("/exercise/view/{id}")
 	public String views(ModelMap model, @PathVariable("id") int id, HttpSession session1) {
+		if (ExerciseIsExist(id)==false){
+			return "404";
+		}
 		if (session1!=null){
 			String username= (String) session1.getAttribute("username");
 			if (isSolve(id, username)==true){

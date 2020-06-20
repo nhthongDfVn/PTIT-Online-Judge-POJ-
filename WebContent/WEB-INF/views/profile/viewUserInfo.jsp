@@ -17,7 +17,15 @@
 <div class="container-fluid">
 <div class="row" style="margin-top: 30px">
 		<div class="col-sm-8">
-		<img style="margin-left: 400px" src="/PTITCoding/images/profile/${sessionScope.username}.png" width="100" height="100">
+				<div style="margin-left: 30px">
+					 <b><a href="/PTITCoding/profile/view/${userInfo.username}.htm">Thông tin cá nhân |</a>  </b>
+					 <a href="/PTITCoding/profile/view/submit/${userInfo.username}.htm">Các bài bạn đã nộp |</a> 
+					 <a href="/PTITCoding/profile/update/${userInfo.username}.htm">Cập nhật thông tin |</a> 
+					 <a href="/PTITCoding/profile/change-password/${userInfo.username}.htm">Đổi mật khẩu |</a>
+					 <a href="/PTITCoding/profile/update/image/${userInfo.username}.htm">Đổi hình ảnh</a>
+				</div>
+
+				<img style="margin-left: 400px" src="/PTITCoding/images/profile/${userInfo.username}.png" width="100" height="100">
 		<div style="margin-left: 50px">
 				<form:form modelAttribute="userInfo" >
 					<h6>Username</h6>
@@ -33,8 +41,7 @@
 					<form:input class="form-control" path="avatar" type="hidden"  />
 					<br>
 				</form:form>
-				<a href="/PTITCoding/profile/update/${userInfo.username}.htm">Cập nhật thông tin</a>
-				<a href="/PTITCoding/profile/change-password/${userInfo.username}.htm">Thay đổi mật khẩu</a>
+				
 		</div>
 		</div>
 		<div class="col-sm-3">

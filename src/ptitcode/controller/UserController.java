@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.BlockingDeque;
 
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
-
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -30,8 +31,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.sun.javafx.sg.prism.NGShape.Mode;
 
+import ptitcode.entity.MD5;
 import ptitcode.entity.Post;
 import ptitcode.entity.Rank;
+import ptitcode.entity.Submit;
 import ptitcode.entity.User;
 import ptitcode.entity.UserInfo;
  
@@ -64,6 +67,8 @@ public class UserController {
 		}
 		
 		if (!error.hasErrors()){
+			MD5 v= new MD5();
+			user.setPassword(v.getMd5(user.getPassword()));
 			if (isUserExist(user.getUsername(),user.getPassword())==true){
 				session.setAttribute("username",user.getUsername());
 				if (user.getUsername().equalsIgnoreCase("admin")){
@@ -75,6 +80,7 @@ public class UserController {
 			}    
 			else {
 				model.addAttribute("message","fail");
+				model.addAttribute("user", new User());
 			}
 		}	
 		return "login";
@@ -126,6 +132,23 @@ public class UserController {
 		if (!error.hasErrors()&&okay==true)
 		{
 			
+			// save in userInfo
+			UserInfo userInfo;
+			userInfo= new UserInfo();
+			userInfo.setUsername(user.getUsername());
+			Session session3 = factory.openSession();
+			Transaction t3 = session3.beginTransaction();
+			try {
+				session3.save(userInfo);
+				t3.commit();	
+			} catch (Exception e) {
+				t3.rollback();
+				e.getMessage();
+			} 
+			
+			
+			
+			// save in User
 			Session session = factory.openSession();
 			Transaction t = session.beginTransaction();
 			Session session1 = factory.openSession();
@@ -133,6 +156,8 @@ public class UserController {
 			Rank rank= new Rank();
 			rank.setUsername(user.getUsername());
 			rank.setScore(0);
+			MD5 v= new MD5();
+			user.setPassword(v.getMd5(user.getPassword()));
 			try {
 				session.save(user);
 				t.commit();
@@ -153,8 +178,18 @@ public class UserController {
 		return "register";
 	}
 	
+	
+	
+	
+	
 	@RequestMapping(value="/profile/view/{id}", method=RequestMethod.GET)
 	public String viewUserProfile(ModelMap model,@PathVariable("id") String username){
+		
+		if (isExist(username)==false){
+			return "404";
+		}
+		
+		
 		Session session = factory.getCurrentSession();
 		UserInfo userInfo = null;
 		userInfo = (UserInfo) session.get(UserInfo.class,username);
@@ -179,18 +214,50 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/profile/update/{id}", method=RequestMethod.GET)
-	public String updateUserProfile(ModelMap model,@PathVariable("id") String username){
+	public String updateUserProfile(ModelMap model,@PathVariable("id") String username, HttpSession sessionUser){
+		if (sessionUser.getAttribute("username")==null){
+			return "403";
+		}
+		String sUser=(String) sessionUser.getAttribute("username");
+		if (!sUser.equals(username)){
+			return "403";
+		}
+		
+		
 		Session session = factory.getCurrentSession();
 		UserInfo userInfo = (UserInfo) session.get(UserInfo.class,username);
 		model.addAttribute("userInfo",userInfo);
+		
+		
+		
 		return "profile/updateUserInfo";
 	}
 	
 	@RequestMapping(value="/profile/update/{id}", method=RequestMethod.POST)
-	public String updateUserProfile(ModelMap model,@PathVariable("id") String username,@ModelAttribute("userInfo")UserInfo userInfo, BindingResult error){
-		
+	public String updateUserProfile(ModelMap model,@PathVariable("id") String username,@ModelAttribute("userInfo")UserInfo userInfo,HttpSession sessionUser, BindingResult error){
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();
+		
+		String sUser=(String) sessionUser.getAttribute("username");
+		if (!sUser.equals(username)){
+			model.addAttribute("message","fail");	
+			UserInfo post1 = (UserInfo) session.get(UserInfo.class,username);
+			model.addAttribute("userInfo", post1);
+			System.out.println("Tại đây 1");
+			return "profile/updateUserInfo";
+		}
+		if (!userInfo.getEmail().equals("")){
+			if (EmailIsExist(userInfo.getEmail(),username)==true){
+				model.addAttribute("message","fail");	
+				UserInfo post1 = (UserInfo) session.get(UserInfo.class,username);
+				model.addAttribute("userInfo", post1);
+				System.out.println("Tại đây 1");
+				return "profile/updateUserInfo";
+			}
+		}
+		
+		
+		
 		userInfo.setUsername(username);
 		
 		try {
@@ -210,13 +277,34 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/profile/change-password/{id}", method=RequestMethod.GET)
-	public String chanegUserPasword(ModelMap model,@PathVariable("id") String username){
+	public String chanegUserPasword(ModelMap model,@PathVariable("id") String username, HttpSession sessionUser ){
+		if (sessionUser.getAttribute("username")==null){
+			return "403";
+		}
+		
+		String sUser=(String) sessionUser.getAttribute("username");
+		if (!sUser.equals(username)){
+			return "403";
+		}
+		Session session = factory.getCurrentSession();
+		UserInfo userInfo = (UserInfo) session.get(UserInfo.class,username);
+		model.addAttribute("userInfo",userInfo);	
+		
 		model.addAttribute("id","username");
 		return "profile/changeUserPassword";
 	}
 	
 	@RequestMapping(value="/profile/change-password/{id}", method=RequestMethod.POST)
-	public String chanegUserPasword1(ModelMap model,HttpServletRequest request,@PathVariable("id") String username){
+	public String chanegUserPasword1(ModelMap model,HttpServletRequest request,@PathVariable("id") String username, HttpSession sessionUser){
+		
+		String sUser=(String) sessionUser.getAttribute("username");
+		if (!sUser.equals(username)){
+			model.addAttribute("message","fail");	
+			model.addAttribute("id","username");
+			return "profile/changeUserPassword";
+		}
+		
+		
 		String oldpass= request.getParameter("oldpass");
 		String newpass= request.getParameter("newpass");
 		String renewpass= request.getParameter("re-newpass");
@@ -235,6 +323,8 @@ public class UserController {
 			model.addAttribute("newpasserr","Nhập lại mật khẩu chưa chính xác");
 		}else{
 			// check in database
+			MD5 v= new MD5();
+			oldpass= v.getMd5(oldpass);
 			if (isUserExist(username,oldpass)==false){
 				model.addAttribute("oldpasserr","Lỗi: Sai mật khẩu");
 			}
@@ -245,7 +335,9 @@ public class UserController {
 				Transaction t = session.beginTransaction();
 				User user= new User();
 				user.setUsername(username);
-				user.setPassword(newpass);
+				MD5 v1= new MD5();
+				user.setPassword(v1.getMd5(newpass));
+				
 				try {
 					session.update(user);
 					t.commit();
@@ -272,6 +364,23 @@ public class UserController {
 	
 	
 	
+	@RequestMapping(value="/profile/update/image/{id}", method=RequestMethod.GET)
+	public String updateUserImageGET(ModelMap model,HttpServletRequest request,@PathVariable("id") String username, HttpSession sessionUser){
+		if (sessionUser.getAttribute("username")==null){
+			return "403";
+		}
+		
+		String sUser=(String) sessionUser.getAttribute("username");
+		if (!sUser.equals(username)){
+			return "403";
+		}
+		Session session = factory.getCurrentSession();
+		UserInfo userInfo = (UserInfo) session.get(UserInfo.class,username);
+		model.addAttribute("userInfo",userInfo);	
+		
+		return "profile/updateUserImage";
+	}
+	
 	
 	@RequestMapping(value="/profile/update/image/{id}", method=RequestMethod.POST)
 	public String updateUserImageProfile(ModelMap model,@PathVariable("id") String username, @RequestParam("image") MultipartFile image){
@@ -291,10 +400,26 @@ public class UserController {
 				model.addAttribute("message","fail");
 			}
 		}
-		UserInfo post1 = (UserInfo) session.get(UserInfo.class,username);
-		model.addAttribute("userInfo", post1);
+		//UserInfo post1 = (UserInfo) session.get(UserInfo.class,username);
+		//model.addAttribute("userInfo", post1);
 	
-		return "profile/updateUserInfo";
+		return "profile/updateUserImage";
+	}
+	
+	
+	@RequestMapping(value="/profile/view/submit/{id}", method=RequestMethod.GET)
+	public String viewUserSubmit(ModelMap model,@PathVariable("id") String username){
+		
+		Session session = factory.getCurrentSession();
+		String hql = "FROM Submit WHERE username=:username ORDER BY submitID DESC";
+		Query query = session.createQuery(hql);
+		query.setString("username",username);
+		List<Submit> list = query.list();
+		model.addAttribute("submit",list);
+		
+		UserInfo userInfo = (UserInfo) session.get(UserInfo.class,username);
+		model.addAttribute("userInfo",userInfo);	
+		return "profile/yoursubmission";
 	}
 	
 	
@@ -323,6 +448,7 @@ public class UserController {
 		user=(User)session.get(User.class,username);
 		
 		if (user!=null){
+			
 			if (user.getPassword().equals(password))
 				re=true; 
 			else 
@@ -343,6 +469,25 @@ public class UserController {
 				re=false;
 		return re;		
     }
+    
+    public boolean EmailIsExist(String email, String username){
+    	UserInfo user= null;
+    	boolean re=false;
+    	Session session = factory.getCurrentSession();
+		String hql = "FROM UserInfo  WHERE email=:email";
+		Query query = session.createQuery(hql);
+		query.setString("email",email);
+		List<UserInfo> list = query.list();
+		 if (list.size()>0) user= list.get(0);
+		if (user!= null){
+			re=true;
+		}
+		if (user.getUsername().equals(username)){
+			re=false;
+		}
+		return re;		
+    }
+    
     
     public void setDefaultImage(String username){
 		String s="cd ../../Workspace/Eclipse/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/PTITCoding/images/profile& COPY default.png "+username+".png";

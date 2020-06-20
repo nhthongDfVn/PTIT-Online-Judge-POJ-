@@ -54,7 +54,8 @@
 							class="form-control"  placeholder="Mật khẩu" path="password"/> 
 							<form:errors style="color:red"  path="password"/>
 					</div>
-					<a href="/PTITCoding/register.htm">Chưa có tài khoản?</a> <br><br>
+					<a href="/PTITCoding/register.htm">Chưa có tài khoản?</a> <br>
+					<a href="/PTITCoding/recover.htm">Quên mật khẩu?</a> <br>
 					<button type="submit" class="btn btn-primary">Đăng nhập</button>
 				</form:form>
 			</div>

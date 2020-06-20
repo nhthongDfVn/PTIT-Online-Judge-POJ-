@@ -31,6 +31,12 @@ public class IndexController {
 		return "about-us";
 	}
 	
+	@RequestMapping("/help")
+	public String showHelp(){	
+		// goi den file help
+		return "help";
+	}
+	
 	
 
 	

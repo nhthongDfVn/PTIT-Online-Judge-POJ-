@@ -33,26 +33,11 @@
 				<table class="table table table-hover">
 					<c:forEach var="u" items="${user}">
 						<tr>
-							<td>${u.username}</td>
+							<td><a href="/PTITCoding/profile/view/${u.username}.htm">${u.username} </a></td>
 						</tr>
 					</c:forEach>
 				</table>
-				<h5>Bài viết</h5>
-				<table class="table table table-hover">
-					<c:forEach var="u" items="${Post}">
-						<tr>
-							<td>${u.title}</td>
-						</tr>
-					</c:forEach>
-				</table>
-				<h5>Bài tập</h5>
-				<table class="table table table-hover">
-					<c:forEach var="u" items="${Exercise}">
-						<tr>
-							<td>${u.name}</td>
-						</tr>
-					</c:forEach>
-				</table>
+			
 
 
 

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import ptitcode.entity.Comment;
 import ptitcode.entity.Exercise;
 import ptitcode.entity.Post;
 import ptitcode.entity.Solution;
@@ -119,15 +120,63 @@ public class PostController {
 	}
 	
 	
+	@RequestMapping(value = "/post/add-comment/{id}", method = RequestMethod.POST)
+	public String insertComment(ModelMap model, @ModelAttribute("cmt") Comment comment,@PathVariable("id") int postID, HttpSession se)
+	{
+		
+		// check if comment is empty
+		if (comment.getComment().equals("")){
+			return "redirect:/post/view/"+String.valueOf(postID)+".htm";
+		}
+		
+		// if length > 0
+		String su=(String) se.getAttribute("username");
+		comment.setUsername(su);
+		comment.setPostID(postID);
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+			session.save(comment);
+			t.commit();
+		} catch (Exception e) {
+			t.rollback();
+		} finally {
+			session.close();
+			
+		}
+		
+		return "redirect:/post/view/"+String.valueOf(postID)+".htm";
+	}
+	
+	
 	
 	
 	// view post
 	@RequestMapping(value="/post/view/{id}")
 	public String addSolution(ModelMap model,@PathVariable("id") int id){
 		
+		if (PostIsExist(id)==false){
+			return "404";
+		}
+		
+		
+		
 		Session session = factory.getCurrentSession();
 		Post post = (Post) session.get(Post.class,id);
 		model.addAttribute("post", post);
+		
+		// old comment
+		String hql = "FROM Comment WHERE postID=:postID ORDER BY commentID DESC";
+		Query query = session.createQuery(hql);
+		query.setString("postID",String.valueOf(id));
+		List<Comment> list = query.list();
+		model.addAttribute("old",list);
+		
+		
+		// add new comment
+		Comment cmt= new Comment();
+		model.addAttribute("cmt",cmt); 
+		
 		return "post/view_post";
 	}
 	
@@ -185,5 +234,18 @@ public class PostController {
 			}
 		return "200";
 	}
+	
+	 public boolean PostIsExist(int postID){
+	    	Session session =factory.getCurrentSession();
+			Post user=null;
+			boolean re=false;
+			user=(Post)session.get(Post.class,postID);
+			if (user!=null)
+					re=true; 
+				else 
+					re=false;
+			return re;		
+	    }
+	
 
 }
